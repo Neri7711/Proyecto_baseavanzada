@@ -1,60 +1,62 @@
+-- Verificacion SQLite alineada con sql/03_verify.sql (MySQL).
 PRAGMA foreign_keys = ON;
 
--- 1) Verifica tablas
+-- 1) Tablas
 SELECT name AS tabla
 FROM sqlite_master
-WHERE type = 'table'
-  AND name NOT LIKE 'sqlite_%'
+WHERE type = 'table' AND name NOT LIKE 'sqlite_%'
 ORDER BY name;
 
--- 2) Lista de grupos con materia/docente/periodo
-SELECT 
-    g.id_grupo,
+-- 2) Cursos con materia, docente, periodo, creditos desde materias
+SELECT
+    c.id_curso,
     m.clave AS materia_clave,
     m.nombre AS materia_nombre,
     d.nombre || ' ' || d.apellidos AS docente,
     p.nombre AS periodo,
-    g.clave_grupo,
-    g.cupo_max
-FROM grupos g
-JOIN materias m ON m.id_materia = g.id_materia
-JOIN docentes d ON d.id_docente = g.id_docente
-JOIN periodos p ON p.id_periodo = g.id_periodo
-ORDER BY g.id_grupo;
+    m.creditos,
+    c.cupo_max
+FROM cursos c
+JOIN materias m ON m.id_materia = c.id_materia
+JOIN docentes d ON d.id_docente = c.id_docente
+JOIN periodos p ON p.id_periodo = c.id_periodo
+ORDER BY c.id_curso;
 
--- 3) Lista de alumnos por grupo
-SELECT 
-    g.id_grupo,
+-- 3) Alumnos con carrera y facultad
+SELECT
+    a.id_alumno,
+    a.nombre || ' ' || a.apellidos AS alumno,
+    cr.nombre AS carrera,
+    f.nombre AS facultad,
+    a.estatus
+FROM alumnos a
+JOIN inscripciones i ON i.id_alumno = a.id_alumno AND i.tipo = 'carrera'
+JOIN carreras cr ON cr.id_carrera = i.id_carrera
+JOIN facultades f ON f.id_facultad = cr.id_facultad
+ORDER BY a.id_alumno;
+
+-- 4) Lista por curso
+SELECT
+    c.id_curso,
     m.clave AS materia,
-    a.matricula,
     a.nombre || ' ' || a.apellidos AS alumno,
     i.fecha_inscripcion
 FROM inscripciones i
 JOIN alumnos a ON a.id_alumno = i.id_alumno
-JOIN grupos g ON g.id_grupo = i.id_grupo
-JOIN materias m ON m.id_materia = g.id_materia
-ORDER BY g.id_grupo, a.matricula;
+JOIN cursos c ON c.id_curso = i.id_curso
+JOIN materias m ON m.id_materia = c.id_materia
+WHERE i.tipo = 'curso'
+ORDER BY c.id_curso, a.id_alumno;
 
--- 4) Calificacion final ponderada por alumno (por grupo)
-WITH calif AS (
-    SELECT
-        i.id_inscripcion,
-        i.id_alumno,
-        i.id_grupo,
-        SUM(c.calificacion * (e.porcentaje / 100.0)) AS final_ponderado
-    FROM inscripciones i
-    JOIN calificaciones c ON c.id_inscripcion = i.id_inscripcion
-    JOIN evaluaciones e ON e.id_evaluacion = c.id_evaluacion
-    GROUP BY i.id_inscripcion, i.id_alumno, i.id_grupo
-)
+-- 5) Evaluaciones por curso (periodos)
 SELECT
-    a.matricula,
-    a.nombre || ' ' || a.apellidos AS alumno,
-    g.id_grupo,
+    e.id_evaluacion,
+    c.id_curso,
     m.clave AS materia,
-    ROUND(calif.final_ponderado, 2) AS calificacion_final
-FROM calif
-JOIN alumnos a ON a.id_alumno = calif.id_alumno
-JOIN grupos g ON g.id_grupo = calif.id_grupo
-JOIN materias m ON m.id_materia = g.id_materia
-ORDER BY a.matricula, g.id_grupo;
+    e.nombre,
+    e.porcentaje,
+    e.orden
+FROM evaluaciones e
+JOIN cursos c ON c.id_curso = e.id_curso
+JOIN materias m ON m.id_materia = c.id_materia
+ORDER BY c.id_curso, e.orden;

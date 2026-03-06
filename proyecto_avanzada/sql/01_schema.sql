@@ -2,11 +2,22 @@ CREATE DATABASE IF NOT EXISTS escuela CHARACTER SET utf8mb4 COLLATE utf8mb4_0900
 USE escuela;
 
 SET FOREIGN_KEY_CHECKS = 0;
-DROP VIEW IF EXISTS vw_estado_cuenta;
-DROP VIEW IF EXISTS vw_grupos_detalle;
-DROP VIEW IF EXISTS vw_horario_grupo;
-DROP VIEW IF EXISTS vw_kardex;
+DROP VIEW IF EXISTS vw_lista_curso;
 DROP VIEW IF EXISTS vw_lista_grupo;
+DROP VIEW IF EXISTS vw_horario_curso;
+DROP VIEW IF EXISTS vw_horario_grupo;
+DROP VIEW IF EXISTS vw_cursos_detalle;
+DROP VIEW IF EXISTS vw_grupos_detalle;
+DROP VIEW IF EXISTS vw_kardex;
+DROP VIEW IF EXISTS vw_estado_cuenta;
+DROP VIEW IF EXISTS vw_alumnos_carrera;
+DROP VIEW IF EXISTS vw_docentes_cursos;
+DROP VIEW IF EXISTS vw_resumen_pagos;
+DROP VIEW IF EXISTS vw_facultades_carreras;
+DROP VIEW IF EXISTS vw_boleta_alumno;
+DROP VIEW IF EXISTS vw_calificaciones_detalle;
+DROP VIEW IF EXISTS vw_calificaciones_por_materia;
+DROP VIEW IF EXISTS vw_promedio_por_materia;
 DROP TABLE IF EXISTS pagos;
 DROP TABLE IF EXISTS calificaciones;
 DROP TABLE IF EXISTS evaluaciones;
@@ -15,7 +26,9 @@ DROP TABLE IF EXISTS horarios;
 DROP TABLE IF EXISTS cursos;
 DROP TABLE IF EXISTS grupos;
 DROP TABLE IF EXISTS alumnos;
+DROP TABLE IF EXISTS carreras_materias;
 DROP TABLE IF EXISTS carreras;
+DROP TABLE IF EXISTS facultades;
 DROP TABLE IF EXISTS materias;
 DROP TABLE IF EXISTS aulas;
 DROP TABLE IF EXISTS periodos;
@@ -46,19 +59,40 @@ CREATE TABLE aulas (
   CONSTRAINT chk_aulas_capacidad CHECK (capacidad > 0)
 ) ENGINE=InnoDB;
 
+CREATE TABLE facultades (
+  id_facultad INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  clave VARCHAR(20) NOT NULL,
+  UNIQUE KEY uq_facultades_clave (clave)
+) ENGINE=InnoDB;
+
 CREATE TABLE materias (
   id_materia INT AUTO_INCREMENT PRIMARY KEY,
   clave VARCHAR(20) NOT NULL,
   nombre VARCHAR(120) NOT NULL,
-  UNIQUE KEY uq_materias_clave (clave)
+  creditos INT NOT NULL,
+  UNIQUE KEY uq_materias_clave (clave),
+  CONSTRAINT chk_materias_creditos CHECK (creditos > 0)
 ) ENGINE=InnoDB;
 
 CREATE TABLE carreras (
   id_carrera INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
+  id_facultad INT NOT NULL,
+  UNIQUE KEY uq_carreras_facultad_nombre (id_facultad, nombre),
+  CONSTRAINT fk_carreras_facultades FOREIGN KEY (id_facultad) REFERENCES facultades(id_facultad)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+CREATE TABLE carreras_materias (
+  id_carrera INT NOT NULL,
   id_materia INT NOT NULL,
-  UNIQUE KEY uq_carreras_nombre (nombre),
-  CONSTRAINT fk_carreras_materias FOREIGN KEY (id_materia) REFERENCES materias(id_materia)
+  PRIMARY KEY (id_carrera, id_materia),
+  CONSTRAINT fk_cm_carreras FOREIGN KEY (id_carrera) REFERENCES carreras(id_carrera)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  CONSTRAINT fk_cm_materias FOREIGN KEY (id_materia) REFERENCES materias(id_materia)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
 ) ENGINE=InnoDB;
@@ -76,13 +110,11 @@ CREATE TABLE alumnos (
 CREATE TABLE cursos (
   id_curso INT AUTO_INCREMENT PRIMARY KEY,
   id_materia INT NOT NULL,
-  creditos INT NOT NULL,
   id_docente INT NOT NULL,
   id_periodo INT NOT NULL,
   cupo_max INT NOT NULL,
   esta_lleno BOOLEAN NOT NULL DEFAULT FALSE,
   CONSTRAINT chk_cursos_cupo_max CHECK (cupo_max > 0),
-  CONSTRAINT chk_cursos_creditos CHECK (creditos > 0),
   CONSTRAINT fk_cursos_materias FOREIGN KEY (id_materia) REFERENCES materias(id_materia)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
@@ -114,13 +146,14 @@ CREATE TABLE horarios (
 CREATE TABLE evaluaciones (
   id_evaluacion INT AUTO_INCREMENT PRIMARY KEY,
   id_curso INT NOT NULL,
-  calificacion DECIMAL(5,2) NOT NULL,
-  porcentaje INT NOT NULL,
-  CONSTRAINT chk_evaluaciones_porcentaje CHECK (porcentaje BETWEEN 0 AND 100),
-  CONSTRAINT chk_evaluaciones_calificacion CHECK (calificacion BETWEEN 0 AND 100),
+  nombre VARCHAR(50) NOT NULL,
+  porcentaje DECIMAL(5,2) NOT NULL,
+  orden TINYINT NOT NULL DEFAULT 1,
+  CONSTRAINT chk_evaluaciones_porcentaje CHECK (porcentaje > 0 AND porcentaje <= 100),
   CONSTRAINT fk_evaluaciones_cursos FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
     ON UPDATE CASCADE
-    ON DELETE CASCADE
+    ON DELETE CASCADE,
+  UNIQUE KEY uq_evaluaciones_curso_nombre (id_curso, nombre)
 ) ENGINE=InnoDB;
 
 CREATE TABLE inscripciones (
@@ -139,6 +172,21 @@ CREATE TABLE inscripciones (
   CONSTRAINT fk_inscripciones_cursos FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
     ON UPDATE CASCADE
     ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE calificaciones (
+  id_calificacion INT AUTO_INCREMENT PRIMARY KEY,
+  id_inscripcion INT NOT NULL,
+  id_evaluacion INT NOT NULL,
+  calificacion DECIMAL(5,2) NOT NULL,
+  CONSTRAINT chk_calificaciones_valor CHECK (calificacion >= 0 AND calificacion <= 100),
+  CONSTRAINT fk_calificaciones_inscripcion FOREIGN KEY (id_inscripcion) REFERENCES inscripciones(id_inscripcion)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  CONSTRAINT fk_calificaciones_evaluacion FOREIGN KEY (id_evaluacion) REFERENCES evaluaciones(id_evaluacion)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE,
+  UNIQUE KEY uq_calificaciones_inscripcion_evaluacion (id_inscripcion, id_evaluacion)
 ) ENGINE=InnoDB;
 
 CREATE TABLE pagos (

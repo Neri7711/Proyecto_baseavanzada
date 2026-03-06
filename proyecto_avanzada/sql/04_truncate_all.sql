@@ -3,15 +3,18 @@ USE escuela;
 SET FOREIGN_KEY_CHECKS = 0;
 
 TRUNCATE TABLE pagos;
-TRUNCATE TABLE evaluaciones;
+TRUNCATE TABLE calificaciones;
 TRUNCATE TABLE inscripciones;
 TRUNCATE TABLE horarios;
+TRUNCATE TABLE evaluaciones;
 TRUNCATE TABLE cursos;
 TRUNCATE TABLE alumnos;
+TRUNCATE TABLE carreras_materias;
 TRUNCATE TABLE carreras;
 TRUNCATE TABLE materias;
 TRUNCATE TABLE aulas;
 TRUNCATE TABLE periodos;
 TRUNCATE TABLE docentes;
+TRUNCATE TABLE facultades;
 
 SET FOREIGN_KEY_CHECKS = 1;
