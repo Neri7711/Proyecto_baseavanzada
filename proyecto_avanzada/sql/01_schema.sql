@@ -10,6 +10,8 @@ DROP VIEW IF EXISTS vw_cursos_detalle;
 DROP VIEW IF EXISTS vw_grupos_detalle;
 DROP VIEW IF EXISTS vw_kardex;
 DROP VIEW IF EXISTS vw_estado_cuenta;
+DROP VIEW IF EXISTS vw_morosidad_alumnos;
+DROP VIEW IF EXISTS vw_alumnos_por_estatus;
 DROP VIEW IF EXISTS vw_alumnos_carrera;
 DROP VIEW IF EXISTS vw_docentes_cursos;
 DROP VIEW IF EXISTS vw_resumen_pagos;
@@ -19,6 +21,7 @@ DROP VIEW IF EXISTS vw_calificaciones_detalle;
 DROP VIEW IF EXISTS vw_calificaciones_por_materia;
 DROP VIEW IF EXISTS vw_promedio_por_materia;
 DROP TABLE IF EXISTS pagos;
+DROP TABLE IF EXISTS cargos;
 DROP TABLE IF EXISTS calificaciones;
 DROP TABLE IF EXISTS evaluaciones;
 DROP TABLE IF EXISTS inscripciones;
@@ -46,7 +49,7 @@ CREATE TABLE docentes (
 
 CREATE TABLE periodos (
   id_periodo INT AUTO_INCREMENT PRIMARY KEY,
-  nombre VARCHAR(20) NOT NULL,
+  nombre VARCHAR(100) NOT NULL,
   fecha_inicio DATE NOT NULL,
   fecha_fin DATE NOT NULL
 ) ENGINE=InnoDB;
@@ -104,7 +107,7 @@ CREATE TABLE alumnos (
   correo VARCHAR(120) NULL,
   telefono VARCHAR(30) NULL,
   fecha_nacimiento DATE NULL,
-  estatus ENUM('Activo','Baja') NOT NULL DEFAULT 'Activo'
+  estatus ENUM('Activo','Baja','Egresado') NOT NULL DEFAULT 'Activo'
 ) ENGINE=InnoDB;
 
 CREATE TABLE cursos (
@@ -189,20 +192,43 @@ CREATE TABLE calificaciones (
   UNIQUE KEY uq_calificaciones_inscripcion_evaluacion (id_inscripcion, id_evaluacion)
 ) ENGINE=InnoDB;
 
+CREATE TABLE cargos (
+  id_cargo INT AUTO_INCREMENT PRIMARY KEY,
+  id_alumno INT NOT NULL,
+  id_periodo INT NOT NULL,
+  monto DECIMAL(10,2) NOT NULL,
+  concepto VARCHAR(100) NOT NULL,
+  referencia VARCHAR(50) NULL,
+  fecha_vencimiento DATE NOT NULL,
+  estado ENUM('pendiente','pagado','parcial') NOT NULL DEFAULT 'pendiente',
+  UNIQUE KEY uq_cargos_referencia (referencia),
+  CONSTRAINT chk_cargos_monto CHECK (monto > 0),
+  CONSTRAINT fk_cargos_alumnos FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
+  CONSTRAINT fk_cargos_periodos FOREIGN KEY (id_periodo) REFERENCES periodos(id_periodo)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
 CREATE TABLE pagos (
   id_pago INT AUTO_INCREMENT PRIMARY KEY,
   id_alumno INT NOT NULL,
   id_periodo INT NOT NULL,
-  concepto VARCHAR(100) NOT NULL,
+  id_concepto INT NOT NULL,
   monto DECIMAL(10,2) NOT NULL,
   fecha_pago DATE NOT NULL,
   referencia VARCHAR(50) NULL,
   UNIQUE KEY uq_pagos_referencia (referencia),
   CONSTRAINT chk_pagos_monto CHECK (monto > 0),
+  KEY idx_pagos_id_concepto (id_concepto),
   CONSTRAINT fk_pagos_alumnos FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
   CONSTRAINT fk_pagos_periodos FOREIGN KEY (id_periodo) REFERENCES periodos(id_periodo)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
+  CONSTRAINT fk_pagos_cargos FOREIGN KEY (id_concepto) REFERENCES cargos(id_cargo)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
 ) ENGINE=InnoDB;

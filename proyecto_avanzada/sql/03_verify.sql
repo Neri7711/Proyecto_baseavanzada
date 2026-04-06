@@ -81,14 +81,16 @@ SELECT
     CONCAT(a.nombre, ' ', a.apellidos) AS alumno,
     cr.nombre AS carrera,
     p.nombre AS periodo,
-    'Colegiatura Enero' AS concepto_adeudado
+    c.concepto AS concepto_adeudado
 FROM alumnos a
 JOIN inscripciones i ON i.id_alumno = a.id_alumno AND i.tipo = 'carrera'
 JOIN carreras cr ON cr.id_carrera = i.id_carrera
 JOIN periodos p ON p.nombre = '2026-1'
+JOIN cargos c
+    ON c.id_alumno = a.id_alumno
+    AND c.id_periodo = p.id_periodo
+    AND c.concepto = 'Colegiatura Enero'
 LEFT JOIN pagos pa
-    ON pa.id_alumno = a.id_alumno
-    AND pa.id_periodo = p.id_periodo
-    AND pa.concepto = 'Colegiatura Enero'
+    ON pa.id_concepto = c.id_cargo
 WHERE pa.id_pago IS NULL
-GROUP BY a.id_alumno, a.nombre, a.apellidos, cr.nombre, p.nombre;
+GROUP BY a.id_alumno, a.nombre, a.apellidos, cr.nombre, p.nombre, c.concepto;

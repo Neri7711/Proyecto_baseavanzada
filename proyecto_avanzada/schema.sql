@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS alumnos (
     correo TEXT,
     telefono TEXT,
     fecha_nacimiento TEXT,
-    estatus TEXT NOT NULL DEFAULT 'Activo' CHECK (estatus IN ('Activo','Baja'))
+    estatus TEXT NOT NULL DEFAULT 'Activo' CHECK (estatus IN ('Activo','Baja','Egresado'))
 );
 
 CREATE TABLE IF NOT EXISTS cursos (
@@ -120,14 +120,28 @@ CREATE TABLE IF NOT EXISTS calificaciones (
     UNIQUE (id_inscripcion, id_evaluacion)
 );
 
+CREATE TABLE IF NOT EXISTS cargos (
+    id_cargo INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_alumno INTEGER NOT NULL,
+    id_periodo INTEGER NOT NULL,
+    monto REAL NOT NULL CHECK (monto > 0),
+    concepto TEXT NOT NULL,
+    referencia TEXT UNIQUE,
+    fecha_vencimiento TEXT NOT NULL,
+    estado TEXT NOT NULL DEFAULT 'pendiente' CHECK (estado IN ('pendiente', 'pagado', 'parcial')),
+    FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno),
+    FOREIGN KEY (id_periodo) REFERENCES periodos(id_periodo)
+);
+
 CREATE TABLE IF NOT EXISTS pagos (
     id_pago INTEGER PRIMARY KEY AUTOINCREMENT,
     id_alumno INTEGER NOT NULL,
     id_periodo INTEGER NOT NULL,
-    concepto TEXT NOT NULL,
+    id_concepto INTEGER NOT NULL,
     monto REAL NOT NULL CHECK (monto > 0),
     fecha_pago TEXT NOT NULL,
     referencia TEXT UNIQUE,
     FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno),
-    FOREIGN KEY (id_periodo) REFERENCES periodos(id_periodo)
+    FOREIGN KEY (id_periodo) REFERENCES periodos(id_periodo),
+    FOREIGN KEY (id_concepto) REFERENCES cargos(id_cargo)
 );

@@ -14,6 +14,7 @@ UNION ALL SELECT 'horarios', COUNT(*) FROM horarios
 UNION ALL SELECT 'inscripciones', COUNT(*) FROM inscripciones
 UNION ALL SELECT 'evaluaciones', COUNT(*) FROM evaluaciones
 UNION ALL SELECT 'calificaciones', COUNT(*) FROM calificaciones
+UNION ALL SELECT 'cargos', COUNT(*) FROM cargos
 UNION ALL SELECT 'pagos', COUNT(*) FROM pagos;
 
 -- Validacion: ningun curso excede cupo

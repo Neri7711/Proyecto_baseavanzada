@@ -77,14 +77,28 @@ JOIN periodos p ON p.id_periodo = c.id_periodo
 WHERE p.nombre = '2026-2'
   AND NOT EXISTS (SELECT 1 FROM evaluaciones e WHERE e.id_curso = c.id_curso AND e.nombre = 'Parcial 3');
 
--- Pagos adicionales por periodo
-INSERT IGNORE INTO pagos (id_alumno, id_periodo, concepto, monto, fecha_pago, referencia)
-SELECT a.id_alumno, p.id_periodo, 'Inscripcion', 1500.00, p.fecha_inicio,
-  CONCAT('PAY-', p.nombre, '-', a.id_alumno, '-I')
+-- Cargos y pagos adicionales por periodo
+INSERT IGNORE INTO cargos (id_alumno, id_periodo, monto, concepto, referencia, fecha_vencimiento, estado)
+SELECT a.id_alumno, p.id_periodo, 1500.00, 'Inscripcion',
+  CONCAT('CAR-', p.nombre, '-', a.id_alumno, '-I'),
+  p.fecha_inicio,
+  'pagado'
 FROM alumnos a
 CROSS JOIN periodos p
 WHERE p.nombre IN ('2026-1','2026-2')
   AND NOT EXISTS (
+    SELECT 1 FROM cargos c
+    WHERE c.id_alumno = a.id_alumno AND c.id_periodo = p.id_periodo AND c.concepto = 'Inscripcion'
+  );
+
+INSERT IGNORE INTO pagos (id_alumno, id_periodo, id_concepto, monto, fecha_pago, referencia)
+SELECT c.id_alumno, c.id_periodo, c.id_cargo, c.monto, p.fecha_inicio,
+  CONCAT('PAY-', p.nombre, '-', c.id_alumno, '-I')
+FROM cargos c
+JOIN periodos p ON p.id_periodo = c.id_periodo
+WHERE p.nombre IN ('2026-1','2026-2')
+  AND c.concepto = 'Inscripcion'
+  AND NOT EXISTS (
     SELECT 1 FROM pagos pg
-    WHERE pg.id_alumno = a.id_alumno AND pg.id_periodo = p.id_periodo AND pg.concepto = 'Inscripcion'
+    WHERE pg.id_concepto = c.id_cargo
   );

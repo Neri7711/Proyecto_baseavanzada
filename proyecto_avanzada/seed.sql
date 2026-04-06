@@ -68,7 +68,13 @@ INSERT INTO inscripciones (id_alumno, tipo, id_carrera, id_curso, fecha_inscripc
 
 -- Opcionalmente, se podrian poblar calificaciones aqui imitando 02_seed.sql de MySQL.
 
-INSERT INTO pagos (id_alumno, id_periodo, concepto, monto, fecha_pago, referencia) VALUES
-(1,1,'Inscripcion',1500,'2026-01-09','REF-0001'),
-(1,1,'Colegiatura Enero',1200,'2026-01-20','REF-0002'),
-(2,1,'Inscripcion',1500,'2026-01-09','REF-0003');
+INSERT INTO cargos (id_alumno, id_periodo, monto, concepto, referencia, fecha_vencimiento, estado) VALUES
+(1,1,1500,'Inscripcion','CAR-0001','2026-01-13','pagado'),
+(1,1,1200,'Colegiatura Enero','CAR-0002','2026-01-31','pagado'),
+(2,1,1500,'Inscripcion','CAR-0003','2026-01-13','pagado'),
+(3,1,1200,'Colegiatura Enero','CAR-0004','2026-01-31','pendiente');
+
+INSERT INTO pagos (id_alumno, id_periodo, id_concepto, monto, fecha_pago, referencia) VALUES
+(1,1,1,1500,'2026-01-09','REF-0001'),
+(1,1,2,1200,'2026-01-20','REF-0002'),
+(2,1,3,1500,'2026-01-09','REF-0003');

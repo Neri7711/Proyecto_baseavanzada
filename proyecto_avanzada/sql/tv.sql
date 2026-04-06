@@ -32,7 +32,7 @@ CREATE TABLE `vw_alumnos_carrera` (
 ,`alumno` varchar(201)
 ,`correo` varchar(120)
 ,`telefono` varchar(30)
-,`estatus_alumno` enum('Activo','Baja')
+,`estatus_alumno` enum('Activo','Baja','Egresado')
 ,`carrera` varchar(100)
 ,`facultad` varchar(100)
 ,`facultad_clave` varchar(20)
@@ -46,7 +46,7 @@ CREATE TABLE `vw_alumnos_carrera` (
 -- (Véase abajo para la vista actual)
 --
 CREATE TABLE `vw_alumnos_por_estatus` (
-`estatus` enum('Activo','Baja')
+`estatus` enum('Activo','Baja','Egresado')
 ,`total` bigint
 );
 
@@ -336,7 +336,7 @@ CREATE TABLE `vw_morosidad_alumnos` (
 `nombre` varchar(80)
 ,`apellidos` varchar(120)
 ,`correo` varchar(120)
-,`estatus` enum('Activo','Baja')
+,`estatus` enum('Activo','Baja','Egresado')
 );
 
 -- --------------------------------------------------------
@@ -481,7 +481,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_curs
 --
 DROP TABLE IF EXISTS `vw_distribucion_ingresos_concepto`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_distribucion_ingresos_concepto`  AS SELECT `pagos`.`concepto` AS `concepto`, sum(`pagos`.`monto`) AS `monto_total` FROM `pagos` GROUP BY `pagos`.`concepto` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_distribucion_ingresos_concepto`  AS SELECT `c`.`concepto` AS `concepto`, sum(`p`.`monto`) AS `monto_total` FROM (`pagos` `p` join `cargos` `c` on((`c`.`id_cargo` = `p`.`id_concepto`))) GROUP BY `c`.`concepto` ;
 
 -- --------------------------------------------------------
 
@@ -598,7 +598,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_matr
 --
 DROP TABLE IF EXISTS `vw_morosidad_alumnos`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_morosidad_alumnos`  AS SELECT `a`.`nombre` AS `nombre`, `a`.`apellidos` AS `apellidos`, `a`.`correo` AS `correo`, `a`.`estatus` AS `estatus` FROM (`alumnos` `a` left join `pagos` `p` on((`a`.`id_alumno` = `p`.`id_alumno`))) WHERE ((`a`.`estatus` = 'Activo') AND (`p`.`id_pago` is null)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_morosidad_alumnos`  AS SELECT distinct `a`.`nombre` AS `nombre`, `a`.`apellidos` AS `apellidos`, `a`.`correo` AS `correo`, `a`.`estatus` AS `estatus` FROM (`alumnos` `a` join `cargos` `c` on((`c`.`id_alumno` = `a`.`id_alumno`))) WHERE ((`a`.`estatus` = 'Activo') AND (`c`.`estado` in ('pendiente','parcial'))) ;
 
 -- --------------------------------------------------------
 
@@ -643,7 +643,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_rend
 --
 DROP TABLE IF EXISTS `vw_resumen_pagos`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_resumen_pagos`  AS SELECT `p`.`nombre` AS `periodo`, `pg`.`concepto` AS `concepto`, count(`pg`.`id_pago`) AS `cantidad_pagos`, round(sum(`pg`.`monto`),2) AS `total_recaudado`, round(avg(`pg`.`monto`),2) AS `promedio_pago`, min(`pg`.`monto`) AS `pago_minimo`, max(`pg`.`monto`) AS `pago_maximo` FROM (`pagos` `pg` join `periodos` `p` on((`p`.`id_periodo` = `pg`.`id_periodo`))) GROUP BY `p`.`nombre`, `pg`.`concepto` ORDER BY `p`.`nombre` ASC, `pg`.`concepto` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_resumen_pagos`  AS SELECT `p`.`nombre` AS `periodo`, `c`.`concepto` AS `concepto`, count(`pg`.`id_pago`) AS `cantidad_pagos`, round(sum(`pg`.`monto`),2) AS `total_recaudado`, round(avg(`pg`.`monto`),2) AS `promedio_pago`, min(`pg`.`monto`) AS `pago_minimo`, max(`pg`.`monto`) AS `pago_maximo` FROM ((`pagos` `pg` join `periodos` `p` on((`p`.`id_periodo` = `pg`.`id_periodo`))) join `cargos` `c` on((`c`.`id_cargo` = `pg`.`id_concepto`))) GROUP BY `p`.`nombre`, `c`.`concepto` ORDER BY `p`.`nombre` ASC, `c`.`concepto` ASC ;
 
 -- --------------------------------------------------------
 

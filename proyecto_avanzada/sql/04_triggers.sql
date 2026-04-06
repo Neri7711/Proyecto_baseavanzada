@@ -8,6 +8,11 @@ DROP TRIGGER IF EXISTS trg_horarios_conflicto_bi;
 DROP TRIGGER IF EXISTS trg_horarios_conflicto_bu;
 DROP TRIGGER IF EXISTS trg_calificaciones_consistencia_bi;
 DROP TRIGGER IF EXISTS trg_calificaciones_consistencia_bu;
+DROP TRIGGER IF EXISTS trg_pagos_consistencia_bi;
+DROP TRIGGER IF EXISTS trg_pagos_consistencia_bu;
+DROP TRIGGER IF EXISTS trg_pagos_estado_ai;
+DROP TRIGGER IF EXISTS trg_pagos_estado_au;
+DROP TRIGGER IF EXISTS trg_pagos_estado_ad;
 
 DELIMITER //
 
@@ -180,6 +185,97 @@ BEGIN
   IF v_curso_insc IS NULL OR v_curso_eval IS NULL OR v_curso_insc <> v_curso_eval THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La evaluacion no pertenece al curso de la inscripcion';
   END IF;
+END//
+
+-- Pagos: el cargo debe pertenecer al mismo alumno y periodo del pago
+CREATE TRIGGER trg_pagos_consistencia_bi
+BEFORE INSERT ON pagos
+FOR EACH ROW
+BEGIN
+  DECLARE v_alumno_cargo INT;
+  DECLARE v_periodo_cargo INT;
+
+  SELECT c.id_alumno, c.id_periodo
+  INTO v_alumno_cargo, v_periodo_cargo
+  FROM cargos c
+  WHERE c.id_cargo = NEW.id_concepto;
+
+  IF v_alumno_cargo IS NULL OR v_periodo_cargo IS NULL THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El cargo asociado no existe';
+  END IF;
+
+  IF v_alumno_cargo <> NEW.id_alumno OR v_periodo_cargo <> NEW.id_periodo THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El pago no coincide con alumno/periodo del cargo';
+  END IF;
+END//
+
+CREATE TRIGGER trg_pagos_consistencia_bu
+BEFORE UPDATE ON pagos
+FOR EACH ROW
+BEGIN
+  DECLARE v_alumno_cargo INT;
+  DECLARE v_periodo_cargo INT;
+
+  SELECT c.id_alumno, c.id_periodo
+  INTO v_alumno_cargo, v_periodo_cargo
+  FROM cargos c
+  WHERE c.id_cargo = NEW.id_concepto;
+
+  IF v_alumno_cargo IS NULL OR v_periodo_cargo IS NULL THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El cargo asociado no existe';
+  END IF;
+
+  IF v_alumno_cargo <> NEW.id_alumno OR v_periodo_cargo <> NEW.id_periodo THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El pago no coincide con alumno/periodo del cargo';
+  END IF;
+END//
+
+-- Actualizar estado del cargo con base en suma pagada
+CREATE TRIGGER trg_pagos_estado_ai
+AFTER INSERT ON pagos
+FOR EACH ROW
+BEGIN
+  UPDATE cargos c
+  SET c.estado = CASE
+    WHEN IFNULL((SELECT SUM(p.monto) FROM pagos p WHERE p.id_concepto = NEW.id_concepto), 0) >= c.monto THEN 'pagado'
+    WHEN IFNULL((SELECT SUM(p.monto) FROM pagos p WHERE p.id_concepto = NEW.id_concepto), 0) > 0 THEN 'parcial'
+    ELSE 'pendiente'
+  END
+  WHERE c.id_cargo = NEW.id_concepto;
+END//
+
+CREATE TRIGGER trg_pagos_estado_au
+AFTER UPDATE ON pagos
+FOR EACH ROW
+BEGIN
+  UPDATE cargos c
+  SET c.estado = CASE
+    WHEN IFNULL((SELECT SUM(p.monto) FROM pagos p WHERE p.id_concepto = OLD.id_concepto), 0) >= c.monto THEN 'pagado'
+    WHEN IFNULL((SELECT SUM(p.monto) FROM pagos p WHERE p.id_concepto = OLD.id_concepto), 0) > 0 THEN 'parcial'
+    ELSE 'pendiente'
+  END
+  WHERE c.id_cargo = OLD.id_concepto;
+
+  UPDATE cargos c
+  SET c.estado = CASE
+    WHEN IFNULL((SELECT SUM(p.monto) FROM pagos p WHERE p.id_concepto = NEW.id_concepto), 0) >= c.monto THEN 'pagado'
+    WHEN IFNULL((SELECT SUM(p.monto) FROM pagos p WHERE p.id_concepto = NEW.id_concepto), 0) > 0 THEN 'parcial'
+    ELSE 'pendiente'
+  END
+  WHERE c.id_cargo = NEW.id_concepto;
+END//
+
+CREATE TRIGGER trg_pagos_estado_ad
+AFTER DELETE ON pagos
+FOR EACH ROW
+BEGIN
+  UPDATE cargos c
+  SET c.estado = CASE
+    WHEN IFNULL((SELECT SUM(p.monto) FROM pagos p WHERE p.id_concepto = OLD.id_concepto), 0) >= c.monto THEN 'pagado'
+    WHEN IFNULL((SELECT SUM(p.monto) FROM pagos p WHERE p.id_concepto = OLD.id_concepto), 0) > 0 THEN 'parcial'
+    ELSE 'pendiente'
+  END
+  WHERE c.id_cargo = OLD.id_concepto;
 END//
 
 DELIMITER ;

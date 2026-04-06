@@ -84,7 +84,13 @@ INSERT INTO calificaciones (id_inscripcion, id_evaluacion, calificacion) VALUES
 (6,4,92),
 (6,5,89);
 
-INSERT INTO pagos (id_alumno, id_periodo, concepto, monto, fecha_pago, referencia) VALUES
-(1,1,'Inscripcion',1500,'2026-01-09','REF-0001'),
-(1,1,'Colegiatura Enero',1200,'2026-01-20','REF-0002'),
-(2,1,'Inscripcion',1500,'2026-01-09','REF-0003');
+INSERT INTO cargos (id_alumno, id_periodo, monto, concepto, referencia, fecha_vencimiento, estado) VALUES
+(1,1,1500,'Inscripcion','CAR-0001','2026-01-13','pagado'),
+(1,1,1200,'Colegiatura Enero','CAR-0002','2026-01-31','pagado'),
+(2,1,1500,'Inscripcion','CAR-0003','2026-01-13','pagado'),
+(3,1,1200,'Colegiatura Enero','CAR-0004','2026-01-31','pendiente');
+
+INSERT INTO pagos (id_alumno, id_periodo, id_concepto, monto, fecha_pago, referencia) VALUES
+(1,1,(SELECT id_cargo FROM cargos WHERE referencia = 'CAR-0001'),1500,'2026-01-09','REF-0001'),
+(1,1,(SELECT id_cargo FROM cargos WHERE referencia = 'CAR-0002'),1200,'2026-01-20','REF-0002'),
+(2,1,(SELECT id_cargo FROM cargos WHERE referencia = 'CAR-0003'),1500,'2026-01-09','REF-0003');
