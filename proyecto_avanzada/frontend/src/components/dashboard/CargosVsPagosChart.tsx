@@ -1,38 +1,54 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import type { CargosVsPagos } from "@/lib/api";
+import { Wallet } from "lucide-react";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+} from "recharts";
+import { ChartPanel } from "./ChartPanel";
+import { PanelEmpty, PanelLoading } from "./PanelState";
 
-export function CargosVsPagosChart({ data }: { data: CargosVsPagos[] | undefined }) {
-  if (!data?.length) return null;
+interface CargosVsPagosItem {
+  mes: string;
+  cargos: number;
+  pagos: number;
+}
 
-  const chartData = data.map((d) => ({
-    ...d,
-    eficiencia: d.total_cargado > 0 ? Math.round((d.total_pagado / d.total_cargado) * 100) : 0,
-  }));
+interface Props {
+  data?: CargosVsPagosItem[];
+  isLoading?: boolean;
+}
 
+export function CargosVsPagosChart({ data, isLoading }: Props) {
   return (
-    <Card className="border-none shadow-md">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold">Cargos vs Pagos por Periodo</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={320}>
-          <BarChart data={chartData} margin={{ top: 5, right: 20, bottom: 30, left: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(210,15%,88%)" />
-            <XAxis dataKey="periodo" angle={-15} textAnchor="end" tick={{ fontSize: 11 }} />
-            <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip
-              formatter={(v: number, name: string) => [
-                `$${v.toLocaleString()}`,
-                name === "total_cargado" ? "Cargado" : "Pagado",
-              ]}
-            />
-            <Legend />
-            <Bar dataKey="total_cargado" name="Cargado" fill="hsl(210,70%,35%)" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="total_pagado" name="Pagado" fill="hsl(145,55%,42%)" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
+    <ChartPanel
+      title="Cargos vs Pagos"
+      subtitle="Comparativa mensual entre cargos emitidos y pagos recibidos"
+      icon={Wallet}
+    >
+      {isLoading ? (
+        <PanelLoading />
+      ) : !data || data.length === 0 ? (
+        <PanelEmpty message="No hay datos de cargos y pagos" />
+      ) : (
+        <div className="h-[340px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={data} barGap={8}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis dataKey="mes" tickLine={false} axisLine={false} />
+              <YAxis tickLine={false} axisLine={false} />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="cargos" radius={[10, 10, 0, 0]} />
+              <Bar dataKey="pagos" radius={[10, 10, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+    </ChartPanel>
   );
 }

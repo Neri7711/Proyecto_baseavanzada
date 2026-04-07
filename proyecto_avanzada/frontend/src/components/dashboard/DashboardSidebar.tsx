@@ -1,4 +1,11 @@
-import { LayoutDashboard, GraduationCap, Users, DollarSign, ChevronDown } from "lucide-react";
+import {
+  LayoutDashboard,
+  GraduationCap,
+  Users,
+  DollarSign,
+  ChevronDown,
+  Sparkles,
+} from "lucide-react";
 import { useState } from "react";
 
 interface Section {
@@ -9,7 +16,7 @@ interface Section {
 }
 
 const sections: Section[] = [
-  { id: "kpis", label: "Dashboard", icon: LayoutDashboard },
+  { id: "kpis", label: "Resumen Ejecutivo", icon: LayoutDashboard },
   {
     id: "academico",
     label: "Académico",
@@ -68,41 +75,63 @@ export function DashboardSidebar({ collapsed, onToggle }: Props) {
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen bg-sidebar text-sidebar-foreground z-40 transition-all duration-300 flex flex-col ${
-        collapsed ? "w-16" : "w-64"
+	className={`fixed top-0 left-0 h-screen z-40 transition-all duration-300 flex flex-col border-r border-sidebar-border/80 bg-[linear-gradient(180deg,#4c1d95_0%,#312e81_45%,#0f172a_100%)] text-sidebar-foreground shadow-2xl ${     
+   	collapsed ? "w-20" : "w-72"
       }`}
     >
-      <div className="flex items-center gap-3 px-4 h-16 border-b border-sidebar-border shrink-0">
-        <GraduationCap className="h-7 w-7 text-sidebar-primary shrink-0" />
-        {!collapsed && <span className="font-bold text-lg tracking-tight">EscuelaDash</span>}
+      <div className="relative flex items-center gap-3 px-5 h-20 border-b border-sidebar-border shrink-0">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sidebar-primary text-sidebar-primary-foreground shadow-lg">
+          <GraduationCap className="h-6 w-6" />
+        </div>
+        {!collapsed && (
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.22em] text-sidebar-foreground/55">Analytics Suite</p>
+            <span className="font-extrabold text-xl tracking-tight text-white">EscuelaDash</span>
+          </div>
+        )}
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-4 px-2 space-y-1">
+      {!collapsed && (
+        <div className="mx-4 mt-4 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md">
+          <div className="flex items-center gap-2 text-cyan-300">
+            <Sparkles className="h-4 w-4" />
+            <span className="text-xs font-semibold uppercase tracking-wider">Vista inteligente</span>
+          </div>
+          <p className="mt-2 text-sm leading-relaxed text-sidebar-foreground/80">
+            Monitorea desempeño académico, inscripción y finanzas desde un solo panel.
+          </p>
+        </div>
+      )}
+
+      <nav className="flex-1 overflow-y-auto py-5 px-3 space-y-2">
         {sections.map((s) => (
           <div key={s.id}>
             {s.children ? (
               <>
                 <button
                   onClick={() => (collapsed ? scrollTo(s.children![0].id) : toggleGroup(s.id))}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-sidebar-accent transition-colors"
+                  className="w-full flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-semibold text-left transition-all hover:bg-white/10 hover:text-white"
                 >
-                  <s.icon className="h-5 w-5 shrink-0 text-sidebar-primary" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5">
+			<s.icon className="h-5 w-5 shrink-0 text-fuchsia-300" />	                 
+                  </div>
                   {!collapsed && (
                     <>
-                      <span className="flex-1 text-left">{s.label}</span>
+                      <span className="flex-1">{s.label}</span>
                       <ChevronDown
                         className={`h-4 w-4 transition-transform ${expanded[s.id] ? "rotate-0" : "-rotate-90"}`}
                       />
                     </>
                   )}
                 </button>
+
                 {!collapsed && expanded[s.id] && (
-                  <div className="ml-8 mt-1 space-y-0.5">
+                  <div className="ml-6 mt-2 space-y-1 border-l border-white/10 pl-4">
                     {s.children.map((c) => (
                       <button
                         key={c.id}
                         onClick={() => scrollTo(c.id)}
-                        className="block w-full text-left px-3 py-2 text-sm rounded-md hover:bg-sidebar-accent transition-colors text-sidebar-foreground/80 hover:text-sidebar-foreground"
+                        className="block w-full rounded-xl px-3 py-2 text-left text-sm text-sidebar-foreground/75 transition-all hover:bg-white/10 hover:text-white"
                       >
                         {c.label}
                       </button>
@@ -113,9 +142,11 @@ export function DashboardSidebar({ collapsed, onToggle }: Props) {
             ) : (
               <button
                 onClick={() => scrollTo(s.id)}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium hover:bg-sidebar-accent transition-colors"
+                className="w-full flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-semibold transition-all hover:bg-white/10 hover:text-white"
               >
-                <s.icon className="h-5 w-5 shrink-0 text-sidebar-primary" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5">
+                  <s.icon className="h-5 w-5 shrink-0 text-cyan-300" />
+                </div>
                 {!collapsed && <span>{s.label}</span>}
               </button>
             )}
@@ -125,9 +156,9 @@ export function DashboardSidebar({ collapsed, onToggle }: Props) {
 
       <button
         onClick={onToggle}
-        className="h-12 flex items-center justify-center border-t border-sidebar-border text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors"
+        className="m-3 flex h-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-sidebar-foreground/70 transition-all hover:bg-white/10 hover:text-white"
       >
-        <ChevronDown className={`h-5 w-5 transition-transform ${collapsed ? "rotate-[-90deg]" : "rotate-90"}`} />
+        <ChevronDown className={`h-5 w-5 transition-transform ${collapsed ? "-rotate-90" : "rotate-90"}`} />
       </button>
     </aside>
   );

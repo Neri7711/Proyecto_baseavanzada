@@ -2,72 +2,162 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
-  :root {
-    --background: 210 20% 98%;
-    --foreground: 215 25% 15%;
+ :root {
+  --background: 29 100% 97%;
+  --foreground: 245 28% 16%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+  --card: 0 0% 100%;
+  --card-foreground: 245 28% 16%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 245 28% 16%;
 
-    --primary: 210 70% 35%;
-    --primary-foreground: 0 0% 100%;
+  --primary: 262 83% 58%;
+  --primary-foreground: 0 0% 100%;
 
-    --secondary: 174 42% 45%;
-    --secondary-foreground: 0 0% 100%;
+  --secondary: 187 100% 42%;
+  --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 15% 93%;
-    --muted-foreground: 215 10% 45%;
+  --muted: 32 100% 94%;
+  --muted-foreground: 244 14% 42%;
 
-    --accent: 38 90% 55%;
-    --accent-foreground: 215 25% 15%;
+  --accent: 35 100% 59%;
+  --accent-foreground: 245 28% 16%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
 
-    --border: 210 15% 88%;
-    --input: 210 15% 88%;
-    --ring: 210 70% 35%;
+  --border: 22 65% 88%;
+  --input: 22 65% 88%;
+  --ring: 262 83% 58%;
 
-    --radius: 0.75rem;
+  --radius: 1.2rem;
 
-    --sidebar-background: 215 30% 12%;
-    --sidebar-foreground: 210 15% 85%;
-    --sidebar-primary: 174 42% 50%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 25% 18%;
-    --sidebar-accent-foreground: 210 15% 90%;
-    --sidebar-border: 215 20% 20%;
-    --sidebar-ring: 174 42% 50%;
+  --sidebar-background: 250 45% 15%;
+  --sidebar-foreground: 0 0% 96%;
+  --sidebar-primary: 187 100% 42%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 258 37% 22%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-border: 255 28% 26%;
+  --sidebar-ring: 187 100% 42%;
 
-    --chart-1: 210 70% 35%;
-    --chart-2: 174 42% 45%;
-    --chart-3: 38 90% 55%;
-    --chart-4: 280 50% 50%;
-    --chart-5: 0 72% 51%;
+  --chart-1: 262 83% 58%;
+  --chart-2: 187 100% 42%;
+  --chart-3: 35 100% 59%;
+  --chart-4: 330 81% 60%;
+  --chart-5: 145 70% 45%;
 
-    --kpi-blue: 210 70% 35%;
-    --kpi-teal: 174 42% 45%;
-    --kpi-amber: 38 90% 55%;
-    --kpi-green: 145 55% 42%;
-  }
+  --kpi-blue: 262 83% 58%;
+  --kpi-teal: 187 100% 42%;
+  --kpi-amber: 35 100% 59%;
+  --kpi-green: 145 70% 45%;
+}
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @layer base {
   * {
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground;
+  html {
+    scroll-behavior: smooth;
   }
+
+body {
+  font-family: 'Inter', sans-serif;
+  @apply bg-background text-foreground;
+  background-image:
+    radial-gradient(circle at top left, rgba(168, 85, 247, 0.16), transparent 24%),
+    radial-gradient(circle at top right, rgba(6, 182, 212, 0.16), transparent 22%),
+    radial-gradient(circle at bottom center, rgba(251, 146, 60, 0.14), transparent 22%),
+    radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.10), transparent 18%);
+  background-attachment: fixed;
+}
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .dashboard-shell {
+    @apply min-h-screen relative;
+  }
+
+  .dashboard-shell::before {
+    content: "";
+    @apply absolute inset-0 pointer-events-none;
+    background:
+      linear-gradient(to bottom, rgba(255,255,255,0.72), rgba(255,255,255,0.55));
+    backdrop-filter: blur(1px);
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-xl border border-white/60 shadow-[0_10px_40px_rgba(15,23,42,0.08)];
+  }
+
+  .section-card {
+    @apply glass-card rounded-3xl p-6 lg:p-8;
+  }
+
+  .section-title {
+    @apply text-2xl font-extrabold tracking-tight text-foreground;
+  }
+
+  .section-subtitle {
+    @apply text-sm text-muted-foreground mt-1;
+  }
+
+  .hero-card {
+    @apply relative overflow-hidden rounded-[28px] border border-white/50 bg-gradient-to-r from-slate-900 via-blue-900 to-cyan-800 text-white shadow-[0_20px_60px_rgba(15,23,42,0.30)];
+  }
+
+ .hero-card::after {
+  content: "";
+  position: absolute;
+  inset: auto -10% -50% auto;
+  width: 340px;
+  height: 340px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255,255,255,0.24), transparent 65%);
+  filter: blur(10px);
+}
+  .metric-chip {
+    @apply rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold text-white/90 backdrop-blur-md;
+  }
+}
+.recharts-cartesian-grid line {
+  stroke: rgba(148, 163, 184, 0.22);
+}
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.75) !important;
+  background: linear-gradient(135deg, rgba(255,255,255,0.96), rgba(245,243,255,0.96)) !important;
+  box-shadow: 0 18px 50px rgba(124, 58, 237, 0.16) !important;
+  padding: 12px 14px !important;
+}
+.recharts-legend-item-text {
+  color: rgb(71 85 105) !important;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(226, 232, 240, 0.45);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.45);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(71, 85, 105, 0.6);
 }

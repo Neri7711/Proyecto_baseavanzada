@@ -1,0 +1,711 @@
+FACULTAD: INGENIERÍA
+CARRERA: Ingeniería en Inteligencia de Datos y Ciberseguridad
+
+SEMESTRE 1
+Cálculo Diferencial, 8
+Álgebra, 8
+Análisis y Diseño de Algoritmos, 8
+Química, 7
+Física, 5
+Raíces del Pensamiento Occidental, 6
+
+SEMESTRE 2
+Cálculo Integral, 8
+Álgebra Lineal, 8
+Programación Orientada a Objetos, 8
+Programación Avanzada, 8
+Comercialización del Producto Digital, 6
+Liderazgo y Comunicación Efectiva, 6
+Antropología Filosófica, 6
+
+SEMESTRE 3
+Cálculo Vectorial, 8
+Ecuaciones Diferenciales, 6
+Programación y Estructuras de Datos, 8
+Procesamiento de Imágenes, 6
+Introducción a las Bases de Datos, 6
+Plataformas para el aprendizaje, 6
+Ética, 6
+
+SEMESTRE 4
+Probabilidad y Estadística, 8
+Investigación de Operaciones, 6
+Sistemas Operativos, 6
+Inteligencia Artificial, 6
+Base de Datos Avanzadas, 6
+Desarrollo de Competencias Directivas y Práctica Profesional, 4
+Introducción al Cristianismo, 6
+
+SEMESTRE 5
+Matemáticas de la Computación, 6
+Desarrollo de Aplicaciones Web, 6
+Ciberseguridad, 8
+Procesamiento de Lenguaje Natural, 8
+Telemática, 7
+Teoría de Juegos, 6
+Antropología Teológica, 3
+
+SEMESTRE 6
+Teoría de Lenguajes y Programación, 6
+Arquitectura de Computadoras, 6
+Desarrollo de Aplicaciones para Dispositivos Inteligentes, 6
+Ciberinteligencia, 6
+Ciencia de Datos para Negocios, 6
+Epistemología Contemporánea, 6
+Filosofía Social y Política, 6
+
+SEMESTRE 7
+Interfaces Hombre-Máquina, 6
+Cómputo Distribuido, 6
+Criptografía y Seguridad en Redes, 6
+Aprendizaje de Máquina, 6
+Datos Masivos, 6
+Gestión de Riesgos y Seguridad, 6
+Temas Selectos de la Cultura Contemporánea, 6
+
+SEMESTRE 8
+Herramientas y Tecnologías CRM y ERP, 6
+Hackeo Ético y Recuperación ante Desastres, 6
+Cómputo Forense, 6
+Ingeniería de Software, 6
+Innovación y Emprendimiento, 6
+Proyecto de Integración Tecnológica I, 6
+Ética Profesional, 6
+
+SEMESTRE 9
+Especialidad, 0
+
+SEMESTRE 10
+Especialidad, 0
+
+
+
+---------------------------
+
+
+
+FACULTAD: INGENIERÍA
+CARRERA: Ingeniería Industrial e Innovación Basada en Datos
+
+SEMESTRE 1
+Cálculo Diferencial, 8
+Álgebra, 8
+Química, 7
+Análisis y Diseño de Algoritmos, 8
+Física, 5
+Raíces del Pensamiento Occidental, 6
+
+SEMESTRE 2
+Cálculo Integral, 5
+Álgebra Lineal, 8
+Programación Orientada a Objetos, 5
+Entorno Económico, 5
+Probabilidad, 6
+Mecánica, 5
+Antropología Filosófica, 5
+
+SEMESTRE 3
+Cálculo Vectorial, 5
+Ecuaciones Diferenciales, 6
+Termodinámica, 7
+Estadística, 5
+Diseño Asistido por Computadora, 6
+Liderazgo y Comunicación Efectiva, 6
+Ética, 5
+
+SEMESTRE 4
+Investigación de Operaciones, 6
+Ingeniería de Métodos, 7
+Sistemas de Información, 6
+Analítica para la Toma de Decisiones, 6
+Contabilidad, 5
+Fundamentos de Mercadotecnia, 6
+Introducción al Cristianismo, 6
+
+SEMESTRE 5
+Introducción a la Logística, 6
+Modelos Probabilísticos, 6
+Procesos de Manufactura, 6
+Ingeniería de Materiales, 7
+Análisis Financiero, 5
+Investigación Cuantitativa de Mercados, 6
+Antropología Teológica, 3
+
+SEMESTRE 6
+Administración de Operaciones, 6
+Simulación, 6
+Gestión de Calidad, 6
+Ciencia de Datos para Negocios, 6
+Principios del Comercio Electrónico, 6
+Administración Lean de Proyectos, 6
+Filosofía Social y Política, 6
+
+SEMESTRE 7
+Gestión de la Cadena de Suministro, 6
+Planeación de Requerimientos de Materiales, 6
+Sistemas de Manufactura, 6
+Diseño de Productos, 6
+Comportamiento Humano en la Organización, 6
+Dinámica de Sistemas, 6
+Temas Selectos de la Cultura Contemporánea, 6
+
+SEMESTRE 8
+Manufactura Esbelta, 6
+Innovación e Inteligencia de Negocios, 6
+Diseño de Instalaciones y Servicios, 6
+Control de Procesos, 6
+Sistemas de Mejoramiento Ambiental, 6
+Ética Profesional, 6
+
+SEMESTRE 9
+Especialidad, 0
+
+SEMESTRE 10
+Especialidad, 0
+
+---------
+
+
+
+FACULTAD: NEGOCIOS
+CARRERA: Administración y Finanzas
+
+SEMESTRE 1
+Raíces del Pensamiento Occidental, 6
+Taller de Redacción y Expresión Oral, 3
+Contabilidad Financiera, 6
+Administración Estratégica, 6
+Derecho Empresarial, 3
+Razonamiento Analítico, 6
+Manejo y Análisis de Información, 6
+Taller de Investigación, 3
+Taller de Identidad Profesional, 3
+
+SEMESTRE 2
+Antropología Filosófica, 6
+Globalización de Negocios, 6
+Control de la Información Financiera, 6
+Administración Sustentable, 6
+Gestión del Talento Humano, 6
+Pensamiento Crítico, 6
+Gestión Estratégica de Mercadotecnia, 6
+Análisis de Datos, 6
+
+SEMESTRE 3
+Ética, 6
+Matemáticas Financieras, 6
+Análisis de Costos, 6
+Derecho Mercantil, 6
+Microeconomía, 6
+Álgebra Matricial, 6
+Innovación y Desarrollo de Productos, 6
+
+SEMESTRE 4
+Filosofía Social y Política, 6
+Análisis Financiero, 6
+Presupuestos, 6
+Probabilidad y Estadística Descriptiva, 6
+Competencias Directivas, 3
+Derecho Laboral, 6
+Análisis Técnico, 6
+Mercados Bursátiles, 6
+Derivados Financieros, 6
+
+SEMESTRE 5
+Introducción al Cristianismo, 6
+Finanzas Corporativas, 6
+Macroeconomía, 6
+Estadística Inferencial, 6
+Análisis y Procesamiento de la Información, 6
+Finanzas Tecnológicas (Fintech), 6
+Análisis de Inversiones, 3
+Administración de Riesgos, 6
+
+SEMESTRE 6
+Antropología Teológica, 3
+Evaluación Financiera de Proyectos de Inversión, 6
+Internacionalización Empresarial, 6
+Competencias Directivas, 3
+Emprendedores, 6
+Investigación de Operaciones, 6
+Econometría, 6
+Administración de Riesgos, 6
+
+SEMESTRE 7
+Temas Selectos de la Cultura Contemporánea, 6
+Tecnologías de la Información para la Empresa, 6
+Economía Internacional, 6
+Riesgo, Crédito y Mercado, 6
+Ingeniería Financiera, 6
+Seminario de Actualización en Finanzas, 6
+Inteligencia de Negocios, 6
+
+SEMESTRE 8
+Ética Profesional, 6
+Simulador Empresarial, 3
+Portafolios de Inversión, 6
+Valuación de Empresas, 6
+Estrategia para la Toma de Decisiones, 6
+Dirección y Administración de Proyectos, 6
+
+SEMESTRE 9
+Impuestos Corporativos, 6
+Derecho Financiero, 3
+Seminario de Especialización en Finanzas, 6
+Casos de Finanzas, 6
+Modelos Financieros, 6
+Emprendimiento Colaborativo, 6
+
+SEMESTRE 10
+Ciberseguridad en los Negocios, 6
+Gestión del Cambio, 6
+Seminario de Estrategias de Negociación, 6
+Seminario de Certificación, 6
+
+
+-------
+
+
+
+FACULTAD: NEGOCIOS
+CARRERA: Administración y Negocios Internacionales
+
+SEMESTRE 1
+Raíces del Pensamiento Occidental, 6
+Taller de Redacción y Expresión Oral, 3
+Contabilidad Financiera, 6
+Administración Estratégica, 6
+Derecho Empresarial, 3
+Razonamiento Analítico, 6
+Manejo y Análisis de Información, 6
+Taller de Investigación, 3
+Taller de Identidad Profesional, 3
+
+SEMESTRE 2
+Antropología Filosófica, 6
+Globalización de Negocios, 6
+Control de la Información Financiera, 6
+Administración Sustentable, 6
+Gestión del Talento Humano, 6
+Pensamiento Crítico, 6
+Gestión Estratégica de Mercadotecnia, 6
+Análisis de Datos, 6
+
+SEMESTRE 3
+Ética, 6
+Matemáticas Financieras, 6
+Análisis de Costos, 6
+Derecho Mercantil, 6
+Microeconomía, 6
+Álgebra Matricial, 6
+Innovación y Desarrollo de Productos, 6
+
+SEMESTRE 4
+Filosofía Social y Política, 6
+Análisis Financiero, 6
+Presupuestos, 6
+Probabilidad y Estadística Descriptiva, 6
+Competencias Directivas, 3
+Derecho Laboral, 6
+Comercio Global, 6
+Inteligencia de Mercados Internacionales, 6
+Acuerdos y Tratados Internacionales, 6
+
+SEMESTRE 5
+Introducción al Cristianismo, 6
+Finanzas Corporativas, 6
+Macroeconomía, 6
+Estadística Inferencial, 6
+Análisis y Procesamiento de la Información, 6
+Relaciones Internacionales, 6
+Administración de la Cadena de Suministro, 6
+Legislación Aduanera, 6
+
+SEMESTRE 6
+Antropología Teológica, 3
+Evaluación Financiera de Proyectos de Inversión, 6
+Internacionalización Empresarial, 6
+Competencias Directivas, 3
+Emprendedores, 6
+Investigación de Operaciones, 6
+Logística Internacional, 6
+
+SEMESTRE 7
+Temas Selectos de la Cultura Contemporánea, 6
+Tecnologías de la Información para la Empresa, 6
+Negociaciones Internacionales, 6
+Seguridad de la Cadena de Suministro, 6
+Análisis de Regiones Comerciales, 6
+Comercio Electrónico, 3
+Emprendimiento Colaborativo, 6
+
+SEMESTRE 8
+Ética Profesional, 6
+Simulación Empresarial, 3
+Proyecto de Importación y Exportación, 6
+Economía Internacional, 6
+Estrategia para la Toma de Decisiones, 6
+Clasificación Arancelaria, 6
+
+SEMESTRE 9
+Derecho Internacional, 6
+Auditoría en Comercio Internacional, 6
+Geopolítica, 6
+Diplomacia, 6
+Inteligencia de Negocios, 6
+
+SEMESTRE 10
+Ciberseguridad en los Negocios, 6
+Gestión del Cambio, 6
+Seminario de Estrategias de Negociación, 6
+Dirección y Administración de Proyectos, 6
+
+
+
+-----
+
+
+FACULTAD: ARTES
+CARRERA: Música e Innovación
+
+SEMESTRE 1
+Instrumento Principal I, 6
+Ensamble I o Habilidades al Teclado I, 3
+Teoría Musical I, 9
+Competencias Auditivas I, 9
+Arte y Pensamiento Innovador, 3
+Audio y Producción Musical I, 6
+Historia de la Cultura, 6
+Persona y Sociedad, 6
+
+SEMESTRE 2
+Instrumento Principal II, 6
+Ensamble II o Habilidades al Teclado II, 3
+Teoría Musical II, 9
+Competencias Auditivas II, 9
+Coro I, 3
+Pedagogía Musical, 6
+Redacción y Técnicas de Expresión Oral, 6
+Ética, 6
+
+SEMESTRE 3
+Instrumento Principal III, 6
+Ensamble III o Habilidades al Teclado III, 3
+Teoría Musical III, 9
+Competencias Auditivas III, 9
+Coro II, 3
+Audio y Producción Musical II, 6
+Música de Cámara I, 4
+
+SEMESTRE 4
+Instrumento Principal IV, 6
+Ensamble IV o Habilidades al Teclado IV, 3
+Teoría Musical IV, 9
+Competencias Auditivas IV, 9
+Análisis Musical en la Historia: Edad Media, Renacimiento y Barroco, 6
+Didáctica Musical, 6
+Música de Cámara II, 4
+Antropología Teológica I, 6
+
+SEMESTRE 5
+Instrumento Principal V, 6
+Ensamble V, 3
+Teoría Musical V, 6
+Competencias Auditivas V, 6
+Análisis Musical en la Historia: Clasicismo, 6
+Música de Cámara III, 4
+Antropología Teológica II, 3
+
+SEMESTRE 6
+Instrumento Principal VI, 6
+Ensamble VI, 3
+Culturas Musicales, 3
+Competencias Auditivas VI, 6
+Análisis Musical en la Historia: Romanticismo, 6
+El Negocio de la Música I, 3
+Música de Cámara IV, 4
+Filosofía Social, 6
+
+SEMESTRE 7
+Instrumento Principal VII, 6
+Ensamble VII o Seminario de Piano Colaborativo, 3
+Improvisación y Teoría del Jazz, 6
+Análisis Musical en la Historia: Renovación de los Lenguajes Sonoros, 6
+El Negocio de la Música II, 3
+Música de Cámara V, 4
+Hombre y Mundo Contemporáneo, 6
+
+SEMESTRE 8
+Instrumento Principal VIII, 6
+Ensamble VIII o Seminario de Piano Colaborativo, 3
+Dirección Orquestal, 6
+Arreglo Musical, 3
+Análisis Musical en la Historia: Tiempos Actuales, 6
+Proyecto Profesional, 3
+Música de Cámara VI, 4
+Ética Profesional, 6
+
+
+
+-------
+
+FACULTAD: DERECHO
+CARRERA: Licenciatura en Derecho
+
+SEMESTRE 1
+Derecho, Sociedad y Estado, 5
+Introducción al Derecho Civil y Persona, 7
+Fundamentos de la Cultura Jurídica, 3
+Expresión Jurídica, 5
+Lógica Jurídica, 3
+Introducción al Estado de Derecho, 7
+Derecho Romano, 9
+Historia de la Cultura, 6
+
+SEMESTRE 2
+Teoría Política, 5
+Derecho Familiar, 5
+Bienes y Propiedad, 5
+Argumentación Jurídica, 3
+Introducción al Derecho Penal, 6
+Historia de la Cultura Jurídica, 7
+Instituciones del Derecho Romano, 8
+Persona y Sociedad, 6
+
+SEMESTRE 3
+Teoría Constitucional, 7
+Obligaciones I, 7
+Justicia y Derechos Humanos, 3
+Teoría General del Proceso, 5
+Teoría del Delito, 7
+Historia del Derecho Mexicano, 6
+Economía, 3
+Ética, 6
+
+SEMESTRE 4
+Derecho Constitucional Mexicano, 7
+Obligaciones II, 7
+Derecho Individual del Trabajo, 7
+Derecho Procesal Civil, 5
+Delitos, 7
+Seminario de Prácticas Profesionales I, 2
+Administración, 5
+Antropología Teológica I, 4
+
+SEMESTRE 5
+Derechos Humanos en México, 7
+Contratos Civiles, 7
+Derecho Colectivo del Trabajo, 5
+Derecho Societario, 7
+Derecho Procesal Penal, 7
+Técnicas de Litigación Oral, 5
+Seminario de Prácticas Profesionales II, 2
+Antropología Teológica II, 4
+
+SEMESTRE 6
+Derecho Procesal Constitucional, 7
+Derecho Comparado, 5
+Sucesiones, 5
+Derecho Procesal Laboral, 7
+Títulos y Operaciones de Crédito, 7
+Derecho Administrativo I, 8
+Filosofía del Derecho, 5
+
+SEMESTRE 7
+Amparo, 7
+Derecho Fiscal I, 7
+Contratos Mercantiles, 7
+Derecho Administrativo II, 8
+Derecho Internacional Público, 5
+Solución Alternativa de Controversias, 5
+Gobierno Corporativo, 5
+
+SEMESTRE 8
+Deontología Jurídica, 5
+Derecho Fiscal II, 7
+Derecho Bancario y Monetario, 7
+Derecho Procesal Administrativo, 7
+Derecho Internacional Privado, 7
+Derecho del Comercio Internacional, 5
+Inglés Jurídico, 5
+
+SEMESTRE 9
+Seminario de Actualización en Derecho Público I, 6
+Seminario de Actualización Jurídica, 6
+Seminario de Investigación Jurídica I, 6
+Seminario de Actualización en Derecho Civil I, 6
+Seminario de Derecho de la Empresa, 6
+Seminario en Temas Selectos de Derecho, 6
+Seminario Electivo de Temas Jurídicos, 6
+
+SEMESTRE 10
+Seminario de Derecho, 6
+Seminario de Actualización en Derecho Civil II, 6
+Seminario Electivo de Investigación, 6
+Seminario Electivo de Derecho Privado, 6
+Seminario de Soluciones Alternativas, 6
+Seminario de Actualización en Derecho Público II, 6
+Seminario de Investigación Jurídica II, 6
+
+----------
+
+FACULTAD: FILOSOFÍA
+CARRERA: Licenciatura en Filosofía
+
+SEMESTRE 1
+Historia de la Filosofía: Presocráticos a Platón, 8
+Filosofía de la Persona, 6
+Introducción al Latín, 6
+Introducción a la Filosofía, 6
+Filosofía de la Cultura, 4
+Lógica de Términos, 6
+Redacción, 6
+
+SEMESTRE 2
+Historia de la Filosofía: Aristóteles al Neoplatonismo, 8
+Antropología Filosófica, 6
+Latín, 6
+Filosofía de la Naturaleza, 6
+Filosofía de la Cultura Contemporánea, 4
+Lógica Proposicional, 6
+Técnicas de Escritura Filosófica, 6
+
+SEMESTRE 3
+Historia de la Filosofía: Patrística y Edad Media, 8
+Ética, 6
+Traducción de Textos Latinos, 6
+Metafísica, 6
+Teoría del Conocimiento, 6
+Lógica de Predicados, 6
+Taller de Escritura Filosófica, 4
+
+SEMESTRE 4
+Historia de la Filosofía: Escolástica, 8
+Problemas Éticos, 6
+Introducción al Griego Clásico, 6
+Ontología, 6
+Gnoseología, 6
+Dialéctica y Argumentación, 6
+
+SEMESTRE 5
+Historia de la Filosofía: Modernidad Temprana, 8
+Filosofía Política, 6
+Griego Clásico, 6
+Fundamentos de la Didáctica, 4
+Antropología Teológica I, 4
+Temas Selectos de Filosofía I, 4
+Temas Selectos de Filosofía II, 4
+Temas Selectos de Filosofía III, 4
+
+SEMESTRE 6
+Historia de la Filosofía: Kant y el Idealismo Alemán, 8
+Filosofía Social, 6
+Traducción de Textos Filosóficos, 6
+Filosofía de la Naturaleza Moderna, 6
+Antropología Teológica II, 4
+Temas Selectos de Filosofía IV, 4
+Temas Selectos de Filosofía V, 4
+Temas Selectos de Filosofía VI, 4
+
+SEMESTRE 7
+Historia de la Filosofía: Hegel y el Posthegelianismo, 8
+Estética, 6
+Seminario de Tesis, 3
+Filosofía de la Ciencia, 6
+Filosofía Novohispana, 6
+Temas Selectos de Filosofía VII, 4
+Temas Selectos de Filosofía VIII, 4
+
+SEMESTRE 8
+Fenomenología y Hermenéutica, 6
+Filosofía del Arte, 6
+Seminario de Titulación, 1
+Epistemología Contemporánea, 6
+Filosofía del México Independiente, 6
+Filosofía Analítica y Pragmatismo, 6
+Temas Selectos de Filosofía IX, 4
+Temas Selectos de Filosofía X, 4
+
+
+-----
+
+
+FACULTAD: COMUNICACIÓN
+CARRERA: Licenciatura en Comunicación
+
+SEMESTRE 1
+Raíces de la Actualidad Mexicana, 6
+Introducción a los Estudios en Comunicación, 4
+Fotografía, 6
+Diseño de la Comunicación Gráfica, 4
+Movimientos Artísticos y Literarios, 6
+Publicidad, 6
+Redacción, 6
+Historia de la Cultura, 6
+
+SEMESTRE 2
+Entorno Universal Contemporáneo, 6
+Teoría de la Comunicación I, 6
+Discurso y Producción Sonora, 6
+Introducción a la Investigación y Documentación, 4
+Comunicación Escrita, 6
+Mercadotecnia, 6
+Taller de Géneros Literarios, 4
+Persona y Sociedad, 6
+
+SEMESTRE 3
+Historia Social de los Medios de Comunicación, 6
+Teoría de la Comunicación II, 6
+Narrativa Audiovisual, 6
+Redacción Periodística, 4
+Comunicación Intersubjetiva, 4
+Teoría de la Organización, 6
+Comunicación Intercultural, 4
+Ética, 6
+
+SEMESTRE 4
+Comunicación Política, 6
+Infografía, 4
+Teoría e Historia del Cine, 6
+Investigación Cualitativa en Comunicación, 6
+Ciberperiodismo, 6
+Guión para Medios Audiovisuales, 6
+Derecho a la Información, 6
+Antropología Teológica I, 4
+
+SEMESTRE 5
+Análisis de Comunidades y Medios Sociales, 6
+Análisis del Discurso, 6
+Efectos Sociales de los Medios de Comunicación, 6
+Investigación Cuantitativa en Comunicación, 6
+Producción Audiovisual I, 6
+Comunicación Interna, 6
+Presentaciones Efectivas, 4
+Antropología Teológica II, 4
+
+SEMESTRE 6
+Empresas de Comunicación, 6
+Argumentación, Retórica y Persuasión, 6
+Diseño Editorial, 4
+Geopolítica y Comunicación, 6
+Relaciones Públicas, 6
+Estructura del Ecosistema Mediático Global, 6
+Producción Audiovisual II, 4
+Filosofía Social, 6
+
+SEMESTRE 7
+Responsabilidad Social, 4
+Proyecto Integrador y Prácticas Profesionales, 4
+Estudio de las Audiencias, 6
+Organización de Eventos, 4
+Proyectos Transmedia, 4
+Diseño Editorial Avanzado, 4
+Hombre y Mundo Contemporáneo, 6
+
+SEMESTRE 8
+Protocolo y Ejercicio Profesional, 4
+Comunicación Intercultural Avanzada, 4
+Gestión de Contenidos Digitales, 4
+Narrativas Transmedia Avanzadas, 4
+Producción Multimedia, 4
+Ética Profesional, 6

@@ -1,29 +1,56 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from "recharts";
-import type { RankingDocente } from "@/lib/api";
+import { Award } from "lucide-react";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts";
+import { ChartPanel } from "./ChartPanel";
+import { PanelEmpty, PanelLoading } from "./PanelState";
 
-export function RankingDocentesChart({ data }: { data: RankingDocente[] | undefined }) {
-  if (!data?.length) return null;
-  const chartData = data.slice(0, 8).map((d) => ({
-    name: `${d.nombre} ${d.apellidos.charAt(0)}.`,
-    promedio: d.promedio_alumnos,
-  }));
+interface RankingDocenteItem {
+  docente: string;
+  promedio: number;
+}
+
+interface Props {
+  data?: RankingDocenteItem[];
+  isLoading?: boolean;
+}
+
+export function RankingDocentesChart({ data, isLoading }: Props) {
   return (
-    <Card className="border-none shadow-md">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold">Ranking Docentes (Promedio Alumnos)</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={320}>
-          <RadarChart data={chartData} outerRadius="70%">
-            <PolarGrid stroke="hsl(210,15%,88%)" />
-            <PolarAngleAxis dataKey="name" tick={{ fontSize: 10 }} />
-            <PolarRadiusAxis domain={[0, 100]} tick={{ fontSize: 9 }} />
-            <Tooltip formatter={(v: number) => [`${v}`, "Promedio"]} />
-            <Radar dataKey="promedio" stroke="hsl(174,42%,45%)" fill="hsl(174,42%,45%)" fillOpacity={0.3} />
-          </RadarChart>
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
+    <ChartPanel
+      title="Ranking de Docentes"
+      subtitle="Comparativa de desempeño promedio por docente"
+      icon={Award}
+    >
+      {isLoading ? (
+        <PanelLoading />
+      ) : !data || data.length === 0 ? (
+        <PanelEmpty message="No hay datos de ranking docente" />
+      ) : (
+        <div className="h-[340px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={data} layout="vertical" margin={{ left: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+              <XAxis type="number" tickLine={false} axisLine={false} />
+              <YAxis
+                type="category"
+                dataKey="docente"
+                tickLine={false}
+                axisLine={false}
+                width={150}
+              />
+              <Tooltip />
+              <Bar dataKey="promedio" radius={[0, 12, 12, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+    </ChartPanel>
   );
 }

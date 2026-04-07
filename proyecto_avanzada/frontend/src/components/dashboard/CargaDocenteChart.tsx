@@ -1,35 +1,72 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import type { CargaDocente } from "@/lib/api";
+import { BookOpenCheck } from "lucide-react";
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+} from "recharts";
+import { ChartPanel } from "./ChartPanel";
+import { PanelEmpty, PanelLoading } from "./PanelState";
 
-export function CargaDocenteChart({ data }: { data: CargaDocente[] | undefined }) {
-  if (!data?.length) return null;
+interface CargaDocenteItem {
+  docente: string;
+  cursos: number;
+}
 
-  const sorted = [...data].sort((a, b) => b.total_alumnos - a.total_alumnos).slice(0, 10);
-  const chartData = sorted.map((d) => ({
-    docente: d.docente.length > 20 ? d.docente.slice(0, 18) + "…" : d.docente,
-    cursos: d.total_cursos,
-    alumnos: d.total_alumnos,
-  }));
+interface Props {
+  data?: CargaDocenteItem[];
+  isLoading?: boolean;
+}
 
+const COLORS = [
+  "#8b5cf6",
+  "#06b6d4",
+  "#fb923c",
+  "#ec4899",
+  "#22c55e",
+  "#f43f5e",
+  "#14b8a6",
+];
+export function CargaDocenteChart({ data, isLoading }: Props) {
   return (
-    <Card className="border-none shadow-md">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold">Carga Docente (Cursos y Alumnos)</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={320}>
-          <BarChart data={chartData} margin={{ top: 5, right: 20, bottom: 50, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(210,15%,88%)" />
-            <XAxis dataKey="docente" angle={-30} textAnchor="end" tick={{ fontSize: 10 }} />
-            <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="cursos" name="Cursos" fill="hsl(210,70%,35%)" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="alumnos" name="Alumnos" fill="hsl(174,42%,45%)" radius={[4, 4, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
+    <ChartPanel
+      title="Carga Docente"
+      subtitle="Distribución de cursos asignados por docente"
+      icon={BookOpenCheck}
+    >
+      {isLoading ? (
+        <PanelLoading />
+      ) : !data || data.length === 0 ? (
+        <PanelEmpty message="No hay datos de carga docente" />
+      ) : (
+        <div className="h-[340px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={data}
+                dataKey="cursos"
+                nameKey="docente"
+                cx="50%"
+                cy="50%"
+                outerRadius={110}
+                innerRadius={55}
+                paddingAngle={3}
+              >
+                {data.map((_, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+    </ChartPanel>
   );
 }

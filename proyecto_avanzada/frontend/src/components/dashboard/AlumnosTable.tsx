@@ -1,43 +1,88 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Search, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import type { Alumno } from "@/lib/api";
+import { ChartPanel } from "./ChartPanel";
+import { PanelEmpty } from "./PanelState";
 
-const statusVariant = (s: string) => {
-  if (s === "Activo") return "default";
-  if (s === "Baja") return "destructive";
-  return "secondary";
+interface Alumno {
+  matricula: string;
+  nombre: string;
+  carrera: string;
+  estatus: string;
+  promedio?: number;
+}
+
+interface Props {
+  data?: Alumno[];
+}
+
+const getStatusStyles = (estatus: string) => {
+  const e = estatus.toLowerCase();
+  if (e.includes("activo") || e.includes("inscrito")) {
+    return "bg-emerald-500/10 text-emerald-700 border-emerald-500/20";
+  }
+  if (e.includes("baja") || e.includes("inactivo")) {
+    return "bg-rose-500/10 text-rose-700 border-rose-500/20";
+  }
+  return "bg-slate-500/10 text-slate-700 border-slate-500/20";
 };
 
-export function AlumnosTable({ data }: { data: Alumno[] | undefined }) {
-  if (!data?.length) return null;
+export function AlumnosTable({ data }: Props) {
   return (
-    <Card className="border-none shadow-md">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-base font-semibold">Listado de Alumnos</CardTitle>
-      </CardHeader>
-      <CardContent className="overflow-auto max-h-[400px]">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Alumno</TableHead>
-              <TableHead>Carrera</TableHead>
-              <TableHead>Correo</TableHead>
-              <TableHead>Estatus</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data.slice(0, 50).map((a) => (
-              <TableRow key={a.id_alumno}>
-                <TableCell className="font-medium">{a.alumno}</TableCell>
-                <TableCell>{a.carrera ?? "—"}</TableCell>
-                <TableCell className="text-muted-foreground text-sm">{a.correo ?? "—"}</TableCell>
-                <TableCell><Badge variant={statusVariant(a.estatus_alumno)}>{a.estatus_alumno}</Badge></TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+    <ChartPanel
+      title="Listado de Alumnos"
+      subtitle="Consulta rápida del padrón estudiantil con estatus y desempeño general"
+      icon={Users}
+      action={
+        <div className="hidden sm:flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-2 text-xs text-muted-foreground">
+          <Search className="h-3.5 w-3.5" />
+          Exploración rápida
+        </div>
+      }
+      contentClassName="p-0"
+    >
+      {!data || data.length === 0 ? (
+        <div className="p-6">
+          <PanelEmpty message="No se encontraron alumnos para mostrar" />
+        </div>
+      ) : (
+        <div className="overflow-hidden rounded-b-3xl">
+          <div className="max-h-[480px] overflow-auto">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0 z-10 bg-slate-50/95 backdrop-blur-md">
+                <tr className="border-b border-border">
+                  <th className="px-6 py-4 text-left font-bold text-foreground">Matrícula</th>
+                  <th className="px-6 py-4 text-left font-bold text-foreground">Nombre</th>
+                  <th className="px-6 py-4 text-left font-bold text-foreground">Carrera</th>
+                  <th className="px-6 py-4 text-left font-bold text-foreground">Estatus</th>
+                  <th className="px-6 py-4 text-left font-bold text-foreground">Promedio</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((alumno, idx) => (
+                  <tr
+                    key={`${alumno.matricula}-${idx}`}
+                    className="border-b border-border/60 transition-colors hover:bg-primary/5"
+                  >
+                    <td className="px-6 py-4 font-medium text-foreground">{alumno.matricula}</td>
+                    <td className="px-6 py-4 text-foreground">{alumno.nombre}</td>
+                    <td className="px-6 py-4 text-muted-foreground">{alumno.carrera}</td>
+                    <td className="px-6 py-4">
+                      <Badge className={`rounded-full border ${getStatusStyles(alumno.estatus)}`}>
+                        {alumno.estatus}
+                      </Badge>
+                    </td>
+                    <td className="px-6 py-4 font-semibold text-foreground">
+                      {alumno.promedio !== undefined && alumno.promedio !== null
+                        ? Number(alumno.promedio).toFixed(1)
+                        : "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </ChartPanel>
   );
 }
