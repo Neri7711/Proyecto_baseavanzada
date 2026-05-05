@@ -1,4 +1,5 @@
-import { useState } from "react";import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { CalendarDays, GraduationCap, DollarSign, ShieldCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { api } from "@/lib/api";
@@ -9,10 +10,12 @@ import { MateriasCriticasChart } from "@/components/dashboard/MateriasCriticasCh
 import { RankingDocentesChart } from "@/components/dashboard/RankingDocentesChart";
 import { TopReprobadosChart } from "@/components/dashboard/TopReprobadosChart";
 import { CargaDocenteChart } from "@/components/dashboard/CargaDocenteChart";
+import { RadarFacultadChart } from "@/components/dashboard/RadarFacultadChart";
+import { BumpRankingFacultadChart } from "@/components/dashboard/BumpRankingFacultadChart";
 import { EstatusInscripcionChart } from "@/components/dashboard/EstatusInscripcionChart";
 import { SaturacionCursosChart } from "@/components/dashboard/SaturacionCursosChart";
+import { SaturacionRangosChart } from "@/components/dashboard/SaturacionRangosChart";
 import { InscripcionesPeriodoChart } from "@/components/dashboard/InscripcionesPeriodoChart";
-import { AlumnosTable } from "@/components/dashboard/AlumnosTable";
 import { IngresosMensualesChart } from "@/components/dashboard/IngresosMensualesChart";
 import { CargosVsPagosChart } from "@/components/dashboard/CargosVsPagosChart";
 import { DistribucionConceptoChart } from "@/components/dashboard/DistribucionConceptoChart";
@@ -27,10 +30,11 @@ const Index = () => {
   const docentes = useQuery({ queryKey: ["docentes"], queryFn: api.getRankingDocentes });
   const topReprobados = useQuery({ queryKey: ["topReprobados"], queryFn: api.getTopReprobados });
   const cargaDocente = useQuery({ queryKey: ["cargaDocente"], queryFn: api.getCargaDocente });
+  const radarFacultad = useQuery({ queryKey: ["radarFacultad"], queryFn: api.getRadarFacultad });
+  const rankingFacultadPeriodo = useQuery({ queryKey: ["rankingFacultadPeriodo"], queryFn: api.getRankingFacultadPeriodo });
   const estatus = useQuery({ queryKey: ["estatus"], queryFn: api.getEstatusInscripcion });
   const saturacion = useQuery({ queryKey: ["saturacion"], queryFn: api.getSaturacionCursos });
   const inscPeriodo = useQuery({ queryKey: ["inscPeriodo"], queryFn: api.getInscripcionesPeriodo });
-  const alumnos = useQuery({ queryKey: ["alumnos"], queryFn: () => api.getAlumnos() });
   const ingresos = useQuery({ queryKey: ["ingresos"], queryFn: api.getIngresosMensuales });
   const cargosVsPagos = useQuery({ queryKey: ["cargosVsPagos"], queryFn: api.getCargosVsPagos });
   const distribucion = useQuery({ queryKey: ["distribucion"], queryFn: api.getDistribucionConcepto });
@@ -127,22 +131,30 @@ const Index = () => {
 
             <div className="space-y-6">
               <section id="rendimiento">
-                <RendimientoCarreraChart data={rendimiento.data} />
+                <RendimientoCarreraChart data={rendimiento.data} isLoading={rendimiento.isLoading} />
               </section>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <section id="materias-criticas">
-                  <MateriasCriticasChart data={criticas.data} />
+                  <MateriasCriticasChart data={criticas.data} isLoading={criticas.isLoading} />
                 </section>
                 <section id="top-reprobados">
-                  <TopReprobadosChart data={topReprobados.data} />
+                  <TopReprobadosChart data={topReprobados.data} isLoading={topReprobados.isLoading} />
                 </section>
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <section id="ranking-docentes">
-                  <RankingDocentesChart data={docentes.data} />
+                  <RankingDocentesChart data={docentes.data} isLoading={docentes.isLoading} />
                 </section>
                 <section id="carga-docente">
-                  <CargaDocenteChart data={cargaDocente.data} />
+                  <CargaDocenteChart data={cargaDocente.data} isLoading={cargaDocente.isLoading} />
+                </section>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <section id="radar-facultad">
+                  <RadarFacultadChart data={radarFacultad.data} isLoading={radarFacultad.isLoading} />
+                </section>
+                <section id="bump-facultad-periodo">
+                  <BumpRankingFacultadChart data={rankingFacultadPeriodo.data} isLoading={rankingFacultadPeriodo.isLoading} />
                 </section>
               </div>
             </div>
@@ -157,17 +169,17 @@ const Index = () => {
             <div className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <section id="estatus">
-                  <EstatusInscripcionChart data={estatus.data} />
+                  <EstatusInscripcionChart data={estatus.data} isLoading={estatus.isLoading} />
                 </section>
                 <section id="inscripciones-periodo">
-                  <InscripcionesPeriodoChart data={inscPeriodo.data} />
+                  <InscripcionesPeriodoChart data={inscPeriodo.data} isLoading={inscPeriodo.isLoading} />
                 </section>
               </div>
               <section id="saturacion">
-                <SaturacionCursosChart data={saturacion.data} />
+                <SaturacionCursosChart data={saturacion.data} isLoading={saturacion.isLoading} />
               </section>
-              <section id="alumnos">
-                <AlumnosTable data={alumnos.data} />
+              <section id="saturacion-rangos">
+                <SaturacionRangosChart data={saturacion.data} isLoading={saturacion.isLoading} />
               </section>
             </div>
           </section>
@@ -180,17 +192,17 @@ const Index = () => {
 
             <div className="space-y-6">
               <section id="ingresos">
-                <IngresosMensualesChart data={ingresos.data} />
+                <IngresosMensualesChart data={ingresos.data} isLoading={ingresos.isLoading} />
               </section>
               <section id="cargos-vs-pagos">
-                <CargosVsPagosChart data={cargosVsPagos.data} />
+                <CargosVsPagosChart data={cargosVsPagos.data} isLoading={cargosVsPagos.isLoading} />
               </section>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <section id="distribucion">
-                  <DistribucionConceptoChart data={distribucion.data} />
+                  <DistribucionConceptoChart data={distribucion.data} isLoading={distribucion.isLoading} />
                 </section>
                 <section id="morosidad">
-                  <MorosidadTable data={morosidad.data} />
+                  <MorosidadTable data={morosidad.data} isLoading={morosidad.isLoading} />
                 </section>
               </div>
             </div>

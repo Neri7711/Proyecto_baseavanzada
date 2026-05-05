@@ -2,21 +2,14 @@ import { Search, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { ChartPanel } from "./ChartPanel";
 import { PanelEmpty } from "./PanelState";
-
-interface Alumno {
-  matricula: string;
-  nombre: string;
-  carrera: string;
-  estatus: string;
-  promedio?: number;
-}
+import type { Alumno } from "@/lib/api";
 
 interface Props {
   data?: Alumno[];
 }
 
-const getStatusStyles = (estatus: string) => {
-  const e = estatus.toLowerCase();
+const getStatusStyles = (estatus?: string | null) => {
+  const e = String(estatus ?? "").toLowerCase();
   if (e.includes("activo") || e.includes("inscrito")) {
     return "bg-emerald-500/10 text-emerald-700 border-emerald-500/20";
   }
@@ -30,7 +23,7 @@ export function AlumnosTable({ data }: Props) {
   return (
     <ChartPanel
       title="Listado de Alumnos"
-      subtitle="Consulta rápida del padrón estudiantil con estatus y desempeño general"
+      subtitle="Consulta rápida del padrón estudiantil con estatus académico"
       icon={Users}
       action={
         <div className="hidden sm:flex items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-2 text-xs text-muted-foreground">
@@ -50,31 +43,27 @@ export function AlumnosTable({ data }: Props) {
             <table className="w-full text-sm">
               <thead className="sticky top-0 z-10 bg-slate-50/95 backdrop-blur-md">
                 <tr className="border-b border-border">
-                  <th className="px-6 py-4 text-left font-bold text-foreground">Matrícula</th>
+                  <th className="px-6 py-4 text-left font-bold text-foreground">ID</th>
                   <th className="px-6 py-4 text-left font-bold text-foreground">Nombre</th>
                   <th className="px-6 py-4 text-left font-bold text-foreground">Carrera</th>
+                  <th className="px-6 py-4 text-left font-bold text-foreground">Facultad</th>
                   <th className="px-6 py-4 text-left font-bold text-foreground">Estatus</th>
-                  <th className="px-6 py-4 text-left font-bold text-foreground">Promedio</th>
                 </tr>
               </thead>
               <tbody>
                 {data.map((alumno, idx) => (
                   <tr
-                    key={`${alumno.matricula}-${idx}`}
+                    key={`${alumno.id_alumno}-${idx}`}
                     className="border-b border-border/60 transition-colors hover:bg-primary/5"
                   >
-                    <td className="px-6 py-4 font-medium text-foreground">{alumno.matricula}</td>
-                    <td className="px-6 py-4 text-foreground">{alumno.nombre}</td>
-                    <td className="px-6 py-4 text-muted-foreground">{alumno.carrera}</td>
+                    <td className="px-6 py-4 font-medium text-foreground">{alumno.id_alumno}</td>
+                    <td className="px-6 py-4 text-foreground">{alumno.alumno}</td>
+                    <td className="px-6 py-4 text-muted-foreground">{alumno.carrera ?? "—"}</td>
+                    <td className="px-6 py-4 text-muted-foreground">{alumno.facultad ?? "—"}</td>
                     <td className="px-6 py-4">
-                      <Badge className={`rounded-full border ${getStatusStyles(alumno.estatus)}`}>
-                        {alumno.estatus}
+                      <Badge className={`rounded-full border ${getStatusStyles(alumno.estatus_alumno)}`}>
+                        {alumno.estatus_alumno}
                       </Badge>
-                    </td>
-                    <td className="px-6 py-4 font-semibold text-foreground">
-                      {alumno.promedio !== undefined && alumno.promedio !== null
-                        ? Number(alumno.promedio).toFixed(1)
-                        : "—"}
                     </td>
                   </tr>
                 ))}

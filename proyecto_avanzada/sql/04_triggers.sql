@@ -31,7 +31,8 @@ BEGIN
 
     SELECT COUNT(*) INTO v_inscritos
     FROM inscripciones
-    WHERE id_curso = NEW.id_curso;
+    WHERE id_curso = NEW.id_curso
+      AND tipo = 'curso';
 
     IF v_inscritos >= v_cupo THEN
       SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cupo maximo alcanzado para el curso';
@@ -53,7 +54,8 @@ BEGIN
 
     SELECT COUNT(*) INTO v_inscritos
     FROM inscripciones
-    WHERE id_curso = NEW.id_curso;
+    WHERE id_curso = NEW.id_curso
+      AND tipo = 'curso';
 
     IF v_inscritos >= v_cupo THEN
       SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cupo maximo alcanzado para el curso';

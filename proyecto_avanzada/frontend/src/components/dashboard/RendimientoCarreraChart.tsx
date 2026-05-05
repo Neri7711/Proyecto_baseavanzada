@@ -1,14 +1,34 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from "recharts";
 import type { RendimientoCarrera } from "@/lib/api";
 
 const COLORS = [
-  "hsl(210,70%,35%)", "hsl(174,42%,45%)", "hsl(38,90%,55%)",
-  "hsl(280,50%,50%)", "hsl(145,55%,42%)", "hsl(0,72%,51%)",
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
+  "hsl(var(--primary))",
 ];
 
-export function RendimientoCarreraChart({ data }: { data: RendimientoCarrera[] | undefined }) {
+interface Props {
+  data?: RendimientoCarrera[];
+  isLoading?: boolean;
+}
+
+export function RendimientoCarreraChart({ data, isLoading }: Props) {
+  if (isLoading) return null;
   if (!data?.length) return null;
+
   return (
     <Card className="border-none shadow-md">
       <CardHeader className="pb-2">

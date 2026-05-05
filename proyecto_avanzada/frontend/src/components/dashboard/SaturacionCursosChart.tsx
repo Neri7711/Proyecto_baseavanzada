@@ -10,37 +10,47 @@ import {
 } from "recharts";
 import { ChartPanel } from "./ChartPanel";
 import { PanelEmpty, PanelLoading } from "./PanelState";
-
-interface SaturacionCursoItem {
-  curso: string;
-  porcentaje: number;
-}
+import type { SaturacionCurso } from "@/lib/api";
 
 interface Props {
-  data?: SaturacionCursoItem[];
+  data?: SaturacionCurso[];
   isLoading?: boolean;
 }
 
 export function SaturacionCursosChart({ data, isLoading }: Props) {
+  const chartData = (data ?? [])
+    .map((row) => ({
+      ...row,
+      curso: row.curso ?? `${row.materia}${row.facultad ? ` (${row.facultad})` : ""}`,
+      porcentaje_llenado: Math.min(Number(row.porcentaje_llenado ?? 0), 100),
+    }))
+    .filter((row) => Number.isFinite(row.porcentaje_llenado) && row.porcentaje_llenado > 0);
+
   return (
     <ChartPanel
-      title="Saturación de Cursos"
-      subtitle="Nivel de ocupación de los cursos con mayor demanda"
+      title="Saturacion de Cursos"
+      subtitle="Nivel de ocupacion por curso (sin mostrar etiquetas de nombres)"
       icon={UsersRound}
     >
       {isLoading ? (
         <PanelLoading />
-      ) : !data || data.length === 0 ? (
-        <PanelEmpty message="No hay datos de saturación de cursos" />
+      ) : chartData.length === 0 ? (
+        <PanelEmpty message="No hay datos de saturacion de cursos" />
       ) : (
-        <div className="h-[340px]">
+        <div className="h-[360px]">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} barSize={34}>
+            <BarChart data={chartData} barSize={28}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
-              <XAxis dataKey="curso" tickLine={false} axisLine={false} />
-              <YAxis tickLine={false} axisLine={false} />
-              <Tooltip />
-              <Bar dataKey="porcentaje" radius={[12, 12, 0, 0]} />
+              <XAxis hide />
+              <YAxis tickLine={false} axisLine={false} domain={[0, 100]} />
+              <Tooltip
+                labelFormatter={(_, payload) => {
+                  const item = payload?.[0]?.payload as SaturacionCurso | undefined;
+                  return item?.curso ?? item?.materia ?? "Sin nombre de curso";
+                }}
+                formatter={(v: number) => [`${Number(v).toFixed(2)}%`, "Ocupacion"]}
+              />
+              <Bar dataKey="porcentaje_llenado" fill="hsl(var(--chart-2))" radius={[12, 12, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

@@ -10,14 +10,10 @@ import {
 } from "recharts";
 import { ChartPanel } from "./ChartPanel";
 import { PanelEmpty, PanelLoading } from "./PanelState";
-
-interface TopReprobadoItem {
-  materia: string;
-  total: number;
-}
+import type { TopReprobado } from "@/lib/api";
 
 interface Props {
-  data?: TopReprobadoItem[];
+  data?: TopReprobado[];
   isLoading?: boolean;
 }
 
@@ -40,7 +36,7 @@ export function TopReprobadosChart({ data, isLoading }: Props) {
               <XAxis dataKey="materia" tickLine={false} axisLine={false} />
               <YAxis tickLine={false} axisLine={false} />
               <Tooltip />
-              <Bar dataKey="total" radius={[12, 12, 0, 0]} />
+              <Bar dataKey="total_reprobados" fill="hsl(var(--chart-4))" radius={[12, 12, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

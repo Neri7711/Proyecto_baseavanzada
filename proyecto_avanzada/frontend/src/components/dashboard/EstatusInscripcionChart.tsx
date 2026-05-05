@@ -20,13 +20,13 @@ interface Props {
   isLoading?: boolean;
 }
 const COLORS = [
-  "#8b5cf6",
-  "#06b6d4",
-  "#fb923c",
-  "#ec4899",
-  "#22c55e",
-  "#f43f5e",
-  "#14b8a6",
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
+  "hsl(var(--primary))",
+  "hsl(var(--secondary))",
 ];
 
 export function EstatusInscripcionChart({ data, isLoading }: Props) {

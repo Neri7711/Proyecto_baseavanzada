@@ -27,6 +27,8 @@ const sections: Section[] = [
       { id: "top-reprobados", label: "Top Reprobados" },
       { id: "ranking-docentes", label: "Ranking Docentes" },
       { id: "carga-docente", label: "Carga Docente" },
+      { id: "radar-facultad", label: "Radar por Facultad" },
+      { id: "bump-facultad-periodo", label: "Bump Ranking Periodo" },
     ],
   },
   {
@@ -37,7 +39,7 @@ const sections: Section[] = [
       { id: "estatus", label: "Estatus Inscripción" },
       { id: "inscripciones-periodo", label: "Tendencia Inscripciones" },
       { id: "saturacion", label: "Saturación de Cursos" },
-      { id: "alumnos", label: "Listado de Alumnos" },
+      { id: "saturacion-rangos", label: "Rangos de Saturación" },
     ],
   },
   {

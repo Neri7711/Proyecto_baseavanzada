@@ -1,6 +1,7 @@
 import type {
   KPIs, RendimientoCarrera, MateriaCritica, RankingDocente,
   TopReprobado, CargaDocente, EstatusInscripcion, SaturacionCurso,
+  RadarFacultadItem, SunburstJerarquiaItem, RankingFacultadPeriodoItem,
   InscripcionPeriodo, Alumno, IngresoMensual, CargosVsPagos,
   DistribucionConcepto, MorosidadAlumno,
 } from "./api";
@@ -59,6 +60,42 @@ export const mockCargaDocente: CargaDocente[] = [
   { docente: "Rosa Méndez", num_empleado: "D006", total_cursos: 3, total_alumnos: 110 },
 ];
 
+export const mockRadarFacultad: RadarFacultadItem[] = [
+  { facultad: "Ingenieria", rendimiento_promedio: 82.1, ocupacion_promedio: 88.3, tasa_reprobacion: 18.2, cobertura_pagos: 81.1, retencion_activos: 89.4 },
+  { facultad: "Ciencias de la Salud", rendimiento_promedio: 79.8, ocupacion_promedio: 85.7, tasa_reprobacion: 14.1, cobertura_pagos: 79.4, retencion_activos: 91.2 },
+  { facultad: "Ciencias Sociales", rendimiento_promedio: 76.4, ocupacion_promedio: 72.5, tasa_reprobacion: 22.7, cobertura_pagos: 74.3, retencion_activos: 84.9 },
+  { facultad: "Diseno", rendimiento_promedio: 80.3, ocupacion_promedio: 77.1, tasa_reprobacion: 16.8, cobertura_pagos: 78.2, retencion_activos: 87.5 },
+  { facultad: "Negocios", rendimiento_promedio: 78.6, ocupacion_promedio: 70.9, tasa_reprobacion: 19.5, cobertura_pagos: 76.9, retencion_activos: 86.1 },
+];
+
+export const mockSunburstJerarquia: SunburstJerarquiaItem[] = [
+  { id_curso: 101, facultad: "Ingenieria", carrera: "Ing. Sistemas", materia: "Calculo Diferencial", curso: "Curso 101", cupo_max: 40, inscritos: 40, porcentaje_llenado: 100 },
+  { id_curso: 103, facultad: "Ingenieria", carrera: "Ing. Sistemas", materia: "Programacion I", curso: "Curso 103", cupo_max: 35, inscritos: 34, porcentaje_llenado: 97.14 },
+  { id_curso: 104, facultad: "Ingenieria", carrera: "Ing. Civil", materia: "Fisica II", curso: "Curso 104", cupo_max: 30, inscritos: 28, porcentaje_llenado: 93.33 },
+  { id_curso: 105, facultad: "Humanidades", carrera: "Lenguas", materia: "Ingles IV", curso: "Curso 105", cupo_max: 25, inscritos: 20, porcentaje_llenado: 80 },
+  { id_curso: 106, facultad: "Derecho", carrera: "Derecho", materia: "Derecho Civil", curso: "Curso 106", cupo_max: 45, inscritos: 30, porcentaje_llenado: 66.67 },
+  { id_curso: 107, facultad: "Negocios", carrera: "Contaduria", materia: "Contabilidad II", curso: "Curso 107", cupo_max: 35, inscritos: 18, porcentaje_llenado: 51.43 },
+];
+
+export const mockRankingFacultadPeriodo: RankingFacultadPeriodoItem[] = [
+  { periodo: "2023-1", facultad: "Ingenieria", total_inscripciones: 420, ranking: 1 },
+  { periodo: "2023-1", facultad: "Ciencias de la Salud", total_inscripciones: 380, ranking: 2 },
+  { periodo: "2023-1", facultad: "Negocios", total_inscripciones: 320, ranking: 3 },
+  { periodo: "2023-1", facultad: "Ciencias Sociales", total_inscripciones: 290, ranking: 4 },
+  { periodo: "2023-2", facultad: "Ciencias de la Salud", total_inscripciones: 430, ranking: 1 },
+  { periodo: "2023-2", facultad: "Ingenieria", total_inscripciones: 410, ranking: 2 },
+  { periodo: "2023-2", facultad: "Negocios", total_inscripciones: 340, ranking: 3 },
+  { periodo: "2023-2", facultad: "Ciencias Sociales", total_inscripciones: 300, ranking: 4 },
+  { periodo: "2024-1", facultad: "Ingenieria", total_inscripciones: 465, ranking: 1 },
+  { periodo: "2024-1", facultad: "Ciencias de la Salud", total_inscripciones: 450, ranking: 2 },
+  { periodo: "2024-1", facultad: "Negocios", total_inscripciones: 360, ranking: 3 },
+  { periodo: "2024-1", facultad: "Ciencias Sociales", total_inscripciones: 325, ranking: 4 },
+  { periodo: "2024-2", facultad: "Ingenieria", total_inscripciones: 490, ranking: 1 },
+  { periodo: "2024-2", facultad: "Ciencias de la Salud", total_inscripciones: 470, ranking: 2 },
+  { periodo: "2024-2", facultad: "Negocios", total_inscripciones: 390, ranking: 3 },
+  { periodo: "2024-2", facultad: "Ciencias Sociales", total_inscripciones: 345, ranking: 4 },
+];
+
 export const mockEstatus: EstatusInscripcion[] = [
   { estatus: "Activo", total: 1890 },
   { estatus: "Baja", total: 215 },
@@ -66,13 +103,13 @@ export const mockEstatus: EstatusInscripcion[] = [
 ];
 
 export const mockSaturacion: SaturacionCurso[] = [
-  { materia: "Cálculo Diferencial", cupo_max: 40, inscritos: 40, porcentaje_llenado: 100, esta_lleno: true },
-  { materia: "Programación I", cupo_max: 35, inscritos: 34, porcentaje_llenado: 97, esta_lleno: false },
-  { materia: "Física II", cupo_max: 30, inscritos: 28, porcentaje_llenado: 93, esta_lleno: false },
-  { materia: "Inglés IV", cupo_max: 25, inscritos: 20, porcentaje_llenado: 80, esta_lleno: false },
-  { materia: "Derecho Civil", cupo_max: 45, inscritos: 30, porcentaje_llenado: 67, esta_lleno: false },
-  { materia: "Anatomía I", cupo_max: 40, inscritos: 22, porcentaje_llenado: 55, esta_lleno: false },
-  { materia: "Contabilidad II", cupo_max: 35, inscritos: 18, porcentaje_llenado: 51, esta_lleno: false },
+  { id_curso: 101, curso: "Cálculo Diferencial (Ingeniería)", materia: "Cálculo Diferencial", facultad: "Ingeniería", cupo_max: 40, inscritos: 40, porcentaje_llenado: 100, esta_lleno: true },
+  { id_curso: 102, curso: "Cálculo Diferencial (Ciencias)", materia: "Cálculo Diferencial", facultad: "Ciencias", cupo_max: 40, inscritos: 36, porcentaje_llenado: 90, esta_lleno: false },
+  { id_curso: 103, curso: "Programación I (Ingeniería)", materia: "Programación I", facultad: "Ingeniería", cupo_max: 35, inscritos: 34, porcentaje_llenado: 97.14, esta_lleno: false },
+  { id_curso: 104, curso: "Física II (Ingeniería)", materia: "Física II", facultad: "Ingeniería", cupo_max: 30, inscritos: 28, porcentaje_llenado: 93.33, esta_lleno: false },
+  { id_curso: 105, curso: "Inglés IV (Humanidades)", materia: "Inglés IV", facultad: "Humanidades", cupo_max: 25, inscritos: 20, porcentaje_llenado: 80, esta_lleno: false },
+  { id_curso: 106, curso: "Derecho Civil (Derecho)", materia: "Derecho Civil", facultad: "Derecho", cupo_max: 45, inscritos: 30, porcentaje_llenado: 66.67, esta_lleno: false },
+  { id_curso: 107, curso: "Contabilidad II (Negocios)", materia: "Contabilidad II", facultad: "Negocios", cupo_max: 35, inscritos: 18, porcentaje_llenado: 51.43, esta_lleno: false },
 ];
 
 export const mockInscPeriodo: InscripcionPeriodo[] = [
@@ -104,11 +141,11 @@ export const mockIngresos: IngresoMensual[] = [
 ];
 
 export const mockCargosVsPagos: CargosVsPagos[] = [
-  { periodo: "2023-1", total_cargado: 3500000, total_pagado: 2800000 },
-  { periodo: "2023-2", total_cargado: 3700000, total_pagado: 3100000 },
-  { periodo: "2024-1", total_cargado: 4000000, total_pagado: 3200000 },
-  { periodo: "2024-2", total_cargado: 4200000, total_pagado: 3500000 },
-  { periodo: "2025-1", total_cargado: 4500000, total_pagado: 2650000 },
+  { facultad: "Ingeniería", total_cargado: 4500000, total_pagado: 3650000 },
+  { facultad: "Ciencias de la Salud", total_cargado: 3900000, total_pagado: 3220000 },
+  { facultad: "Ciencias Sociales", total_cargado: 2800000, total_pagado: 2140000 },
+  { facultad: "Diseño", total_cargado: 1650000, total_pagado: 1290000 },
+  { facultad: "Negocios", total_cargado: 2300000, total_pagado: 1810000 },
 ];
 
 export const mockDistribucion: DistribucionConcepto[] = [
@@ -120,9 +157,9 @@ export const mockDistribucion: DistribucionConcepto[] = [
 ];
 
 export const mockMorosidad: MorosidadAlumno[] = [
-  { nombre: "Carlos", apellidos: "Gómez Ruiz", correo: "carlos.gomez@uni.edu", estatus: "Pendiente" },
-  { nombre: "Patricia", apellidos: "Luna Vargas", correo: "pat.luna@uni.edu", estatus: "Vencido" },
-  { nombre: "Miguel", apellidos: "Ángel Reyes", correo: "miguel.ar@uni.edu", estatus: "Pendiente" },
-  { nombre: "Sofía", apellidos: "Castillo Ramos", correo: null, estatus: "Vencido" },
-  { nombre: "Fernando", apellidos: "Ortega Silva", correo: "fer.os@uni.edu", estatus: "Pendiente" },
+  { nombre: "Carlos", apellidos: "Gomez Ruiz", correo: "carlos.gomez@uni.edu", estatus: "Activo", monto_pendiente: 125000 },
+  { nombre: "Patricia", apellidos: "Luna Vargas", correo: "pat.luna@uni.edu", estatus: "Activo", monto_pendiente: 98300 },
+  { nombre: "Miguel", apellidos: "Angel Reyes", correo: "miguel.ar@uni.edu", estatus: "Activo", monto_pendiente: 77100 },
+  { nombre: "Sofia", apellidos: "Castillo Ramos", correo: null, estatus: "Activo", monto_pendiente: 66800 },
+  { nombre: "Fernando", apellidos: "Ortega Silva", correo: "fer.os@uni.edu", estatus: "Activo", monto_pendiente: 61400 },
 ];

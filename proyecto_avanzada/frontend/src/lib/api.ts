@@ -1,11 +1,25 @@
 import {
-  mockKPIs, mockRendimiento, mockCriticas, mockDocentes,
-  mockTopReprobados, mockCargaDocente, mockEstatus, mockSaturacion,
-  mockInscPeriodo, mockAlumnos, mockIngresos, mockCargosVsPagos,
-  mockDistribucion, mockMorosidad,
+  mockKPIs,
+  mockRendimiento,
+  mockCriticas,
+  mockDocentes,
+  mockTopReprobados,
+  mockCargaDocente,
+  mockRadarFacultad,
+  mockRankingFacultadPeriodo,
+  mockSunburstJerarquia,
+  mockEstatus,
+  mockSaturacion,
+  mockInscPeriodo,
+  mockAlumnos,
+  mockIngresos,
+  mockCargosVsPagos,
+  mockDistribucion,
+  mockMorosidad,
 } from "./mockData";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
+const USE_MOCKS = import.meta.env.VITE_USE_MOCKS === "true";
 
 async function fetchApi<T>(path: string, fallback: T): Promise<T> {
   try {
@@ -27,9 +41,12 @@ async function fetchApi<T>(path: string, fallback: T): Promise<T> {
     }
 
     return payload as T;
-  } catch {
-    console.warn(`[API] Using mock data for ${path}`);
-    return fallback;
+  } catch (error) {
+    if (USE_MOCKS) {
+      console.warn(`[API] Using mock data for ${path}`);
+      return fallback;
+    }
+    throw error;
   }
 }
 
@@ -66,7 +83,10 @@ export interface EstatusInscripcion {
 }
 
 export interface SaturacionCurso {
+  id_curso?: number;
+  curso?: string;
   materia: string;
+  facultad?: string;
   cupo_max: number;
   inscritos: number;
   porcentaje_llenado: number;
@@ -94,6 +114,7 @@ export interface MorosidadAlumno {
   apellidos: string;
   correo: string | null;
   estatus: string;
+  monto_pendiente?: number;
 }
 
 export interface ResumenPago {
@@ -126,37 +147,110 @@ export interface CargaDocente {
   total_alumnos: number;
 }
 
+export interface RadarFacultadItem {
+  facultad: string;
+  rendimiento_promedio: number;
+  ocupacion_promedio: number;
+  tasa_reprobacion: number;
+  cobertura_pagos: number;
+  retencion_activos: number;
+}
+
+export interface SunburstJerarquiaItem {
+  id_curso: number;
+  facultad: string;
+  carrera: string;
+  materia: string;
+  curso: string;
+  cupo_max: number;
+  inscritos: number;
+  porcentaje_llenado: number;
+}
+
+export interface RankingFacultadPeriodoItem {
+  periodo: string;
+  facultad: string;
+  total_inscripciones: number;
+  ranking: number;
+}
+
 export interface InscripcionPeriodo {
   periodo: string;
   total_inscripciones: number;
 }
 
 export interface CargosVsPagos {
-  periodo: string;
+  facultad: string;
   total_cargado: number;
   total_pagado: number;
 }
 
 export const api = {
   getKPIs: () => fetchApi<KPIs>("/api/dashboard/kpis", mockKPIs),
-  getRendimientoCarrera: () => fetchApi<RendimientoCarrera[]>("/api/vistas/vw_rendimiento_por_carrera", mockRendimiento),
-  getMateriasCriticas: () => fetchApi<MateriaCritica[]>("/api/academico/materias-criticas", mockCriticas),
-  getRankingDocentes: () => fetchApi<RankingDocente[]>("/api/academico/ranking-docentes", mockDocentes),
-  getTopReprobados: () => fetchApi<TopReprobado[]>("/api/academico/top-reprobados", mockTopReprobados),
-  getCargaDocente: () => fetchApi<CargaDocente[]>("/api/academico/carga-docente", mockCargaDocente),
-  getEstatusInscripcion: () => fetchApi<EstatusInscripcion[]>("/api/control-escolar/estatus-inscripcion", mockEstatus),
-  getSaturacionCursos: () => fetchApi<SaturacionCurso[]>("/api/control-escolar/saturacion-cursos", mockSaturacion),
-  getInscripcionesPeriodo: () => fetchApi<InscripcionPeriodo[]>("/api/control-escolar/inscripciones-periodo", mockInscPeriodo),
+  getRendimientoCarrera: () =>
+    fetchApi<RendimientoCarrera[]>(
+      "/api/vistas/vw_rendimiento_por_carrera",
+      mockRendimiento
+    ),
+  getMateriasCriticas: () =>
+    fetchApi<MateriaCritica[]>("/api/academico/materias-criticas", mockCriticas),
+  getRankingDocentes: () =>
+    fetchApi<RankingDocente[]>("/api/academico/ranking-docentes", mockDocentes),
+  getTopReprobados: () =>
+    fetchApi<TopReprobado[]>("/api/academico/top-reprobados", mockTopReprobados),
+  getCargaDocente: () =>
+    fetchApi<CargaDocente[]>("/api/academico/carga-docente", mockCargaDocente),
+  getRadarFacultad: () =>
+    fetchApi<RadarFacultadItem[]>(
+      "/api/academico/radar-facultad",
+      mockRadarFacultad
+    ),
+  getSunburstJerarquia: () =>
+    fetchApi<SunburstJerarquiaItem[]>(
+      "/api/academico/sunburst-jerarquia",
+      mockSunburstJerarquia
+    ),
+  getRankingFacultadPeriodo: () =>
+    fetchApi<RankingFacultadPeriodoItem[]>(
+      "/api/academico/ranking-facultad-periodo",
+      mockRankingFacultadPeriodo
+    ),
+  getEstatusInscripcion: () =>
+    fetchApi<EstatusInscripcion[]>(
+      "/api/control-escolar/estatus-inscripcion",
+      mockEstatus
+    ),
+  getSaturacionCursos: () =>
+    fetchApi<SaturacionCurso[]>(
+      "/api/control-escolar/saturacion-cursos",
+      mockSaturacion
+    ),
+  getInscripcionesPeriodo: () =>
+    fetchApi<InscripcionPeriodo[]>(
+      "/api/control-escolar/inscripciones-periodo",
+      mockInscPeriodo
+    ),
   getAlumnos: (carrera?: string, estatus?: string) => {
     const params = new URLSearchParams();
     if (carrera) params.set("carrera", carrera);
     if (estatus) params.set("estatus", estatus);
     const qs = params.toString();
-    return fetchApi<Alumno[]>(`/api/control-escolar/alumnos${qs ? `?${qs}` : ""}`, mockAlumnos);
+    return fetchApi<Alumno[]>(
+      `/api/control-escolar/alumnos${qs ? `?${qs}` : ""}`,
+      mockAlumnos
+    );
   },
-  getIngresosMensuales: () => fetchApi<IngresoMensual[]>("/api/finanzas/ingresos-mensuales", mockIngresos),
-  getMorosidad: () => fetchApi<MorosidadAlumno[]>("/api/finanzas/morosidad", mockMorosidad),
-  getResumenPagos: () => fetchApi<ResumenPago[]>("/api/finanzas/resumen-pagos", []),
-  getDistribucionConcepto: () => fetchApi<DistribucionConcepto[]>("/api/finanzas/distribucion-concepto", mockDistribucion),
-  getCargosVsPagos: () => fetchApi<CargosVsPagos[]>("/api/finanzas/cargos-vs-pagos", mockCargosVsPagos),
+  getIngresosMensuales: () =>
+    fetchApi<IngresoMensual[]>("/api/finanzas/ingresos-mensuales", mockIngresos),
+  getMorosidad: () =>
+    fetchApi<MorosidadAlumno[]>("/api/finanzas/morosidad", mockMorosidad),
+  getResumenPagos: () =>
+    fetchApi<ResumenPago[]>("/api/finanzas/resumen-pagos", []),
+  getDistribucionConcepto: () =>
+    fetchApi<DistribucionConcepto[]>(
+      "/api/finanzas/distribucion-concepto",
+      mockDistribucion
+    ),
+  getCargosVsPagos: () =>
+    fetchApi<CargosVsPagos[]>("/api/finanzas/cargos-vs-pagos", mockCargosVsPagos),
 };

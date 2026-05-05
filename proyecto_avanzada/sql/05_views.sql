@@ -226,11 +226,22 @@ GROUP BY estatus;
 
 -- Alumnos activos sin pagos (morosidad)
 CREATE VIEW vw_morosidad_alumnos AS
-SELECT DISTINCT a.nombre, a.apellidos, a.correo, a.estatus
+SELECT
+  a.nombre,
+  a.apellidos,
+  a.correo,
+  a.estatus,
+  ROUND(SUM(GREATEST(c.monto - IFNULL(pg.total_pagado, 0), 0)), 2) AS monto_pendiente
 FROM alumnos a
 JOIN cargos c ON c.id_alumno = a.id_alumno
+LEFT JOIN (
+  SELECT id_concepto, SUM(monto) AS total_pagado
+  FROM pagos
+  GROUP BY id_concepto
+) pg ON pg.id_concepto = c.id_cargo
 WHERE a.estatus = 'Activo'
-  AND c.estado IN ('pendiente', 'parcial');
+GROUP BY a.id_alumno, a.nombre, a.apellidos, a.correo, a.estatus
+HAVING monto_pendiente > 0;
 
 CREATE VIEW vw_docentes_cursos AS
 SELECT
@@ -311,26 +322,33 @@ GROUP BY d.id_docente, d.nombre, d.apellidos, d.num_empleado;
 
 CREATE VIEW vw_saturacion_cursos AS
 SELECT
+  cu.id_curso,
   m.nombre AS materia,
-  cu.cupo_max AS cupo_max,
-  (
-    SELECT COUNT(*)
-    FROM inscripciones i
-    WHERE i.id_curso = cu.id_curso AND i.tipo = 'curso'
-  ) AS inscritos,
-  ROUND(
-    (
-      (
-        SELECT COUNT(*)
-        FROM inscripciones i
-        WHERE i.id_curso = cu.id_curso AND i.tipo = 'curso'
-      ) / cu.cupo_max
-    ) * 100,
-    2
+  COALESCE(fp.facultad_plan, 'Sin facultad') AS facultad,
+  CONCAT(m.nombre, ' (', COALESCE(fp.facultad_plan, 'Sin facultad'), ')') AS curso,
+  cu.cupo_max,
+  COUNT(DISTINCT i.id_alumno) AS inscritos,
+  LEAST(
+    ROUND((COUNT(DISTINCT i.id_alumno) / cu.cupo_max) * 100, 2),
+    100
   ) AS porcentaje_llenado,
   cu.esta_lleno AS esta_lleno
 FROM cursos cu
-JOIN materias m ON m.id_materia = cu.id_materia;
+JOIN materias m ON m.id_materia = cu.id_materia
+LEFT JOIN inscripciones i ON i.id_curso = cu.id_curso AND i.tipo = 'curso'
+LEFT JOIN (
+  SELECT
+    cm.id_materia,
+    CASE
+      WHEN COUNT(DISTINCT f.nombre) = 1 THEN MIN(f.nombre)
+      ELSE 'Multifacultad'
+    END AS facultad_plan
+  FROM carreras_materias cm
+  JOIN carreras cr ON cr.id_carrera = cm.id_carrera
+  JOIN facultades f ON f.id_facultad = cr.id_facultad
+  GROUP BY cm.id_materia
+) fp ON fp.id_materia = cu.id_materia
+GROUP BY cu.id_curso, m.nombre, cu.cupo_max, cu.esta_lleno, COALESCE(fp.facultad_plan, 'Sin facultad');
 
 CREATE VIEW vw_ingresos_mensuales AS
 SELECT
@@ -404,11 +422,19 @@ ORDER BY p.fecha_inicio;
 CREATE VIEW vw_cargos_vs_pagos AS
 SELECT
   p.nombre AS periodo,
-  SUM(c.monto) AS total_cargado,
-  COALESCE(SUM(pa.monto), 0) AS total_pagado
-FROM cargos c
-JOIN periodos p ON c.id_periodo = p.id_periodo
-LEFT JOIN pagos pa ON pa.id_concepto = c.id_cargo
+  ROUND(IFNULL(cg.total_cargado, 0), 2) AS total_cargado,
+  ROUND(IFNULL(pg.total_pagado, 0), 2) AS total_pagado
+FROM periodos p
+LEFT JOIN (
+  SELECT id_periodo, SUM(monto) AS total_cargado
+  FROM cargos
+  GROUP BY id_periodo
+) cg ON cg.id_periodo = p.id_periodo
+LEFT JOIN (
+  SELECT id_periodo, SUM(monto) AS total_pagado
+  FROM pagos
+  GROUP BY id_periodo
+) pg ON pg.id_periodo = p.id_periodo
 GROUP BY p.id_periodo, p.nombre
 ORDER BY p.fecha_inicio;
 

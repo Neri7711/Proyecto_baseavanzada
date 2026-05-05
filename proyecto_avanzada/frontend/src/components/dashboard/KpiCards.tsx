@@ -7,6 +7,11 @@ interface Props {
   isLoading: boolean;
 }
 
+const formatMillions = (value: number): string => {
+  const millions = value / 1_000_000;
+  return `${millions.toFixed(1)} millones`;
+};
+
 const cards = [
   {
     key: "total_alumnos" as const,
@@ -44,8 +49,7 @@ const cards = [
     label: "Deuda Pendiente",
     icon: AlertCircle,
     color: "bg-rose-500",
-    prefix: "$",
-    format: true,
+    inMillions: true,
     helper: "Saldo acumulado por cobrar",
   },
   {
@@ -82,9 +86,8 @@ export function KpiCards({ data, isLoading }: Props) {
                               const value = typeof raw === "number" ? raw : Number(raw ?? 0);
                               return (
                                 <>
-                                  {c.prefix ?? ""}
-                                  {c.format ? value.toLocaleString() : value}
-                                  {c.suffix ?? ""}
+                                  {c.inMillions ? formatMillions(value) : value}
+                                  {!c.inMillions ? c.suffix ?? "" : ""}
                                 </>
                               );
                             })()}
