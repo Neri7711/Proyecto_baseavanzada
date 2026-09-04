@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+databases
+pymysql
+cryptography
+python-dotenv
+pydantic
+starlette
+jinja2
+python-multipart
+email-validator
+typing-extensions
